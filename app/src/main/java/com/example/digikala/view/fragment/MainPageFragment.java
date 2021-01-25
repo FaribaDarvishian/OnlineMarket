@@ -1,9 +1,6 @@
 package com.example.digikala.view.fragment;
 
 import android.os.Bundle;
-
-
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,21 +20,20 @@ import com.example.digikala.databinding.FragmentMainPageBinding;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MainPageFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MainPageFragment extends Fragment {
     FragmentMainPageBinding mBinding;
     WooCommerceAPI mWooCommerceAPI;
     CompositeDisposable mDisposable;
+    ProductAdapter mAdapter;
     private final MutableLiveData<List<Product>> mLatestProductsLiveData = new MutableLiveData<>();
     public MainPageFragment() {
         // Required empty public constructor
@@ -67,8 +63,7 @@ public class MainPageFragment extends Fragment {
                 container,
                 false);
 
-        mBinding.newProductsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        mBinding.newProductsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, true));
 
 /*        mWooCommerceAPI.getAllProducts().enqueue(new Callback<List<Product>>() {
             @Override
@@ -96,16 +91,37 @@ public class MainPageFragment extends Fragment {
                     }
                 });*/
 
-        mWooCommerceAPI.getProducts(NetworkParams.getProducts(30,2,"date"))
+        Observable<List<Product>> observable = mWooCommerceAPI.getProducts(NetworkParams.getProducts(6, 2, "date"))
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<Product>>() {
-                    @Override
-                    public void accept(List<Product> products) {
-                        ProductAdapter adapter = new ProductAdapter(getActivity(), products);
-                        mBinding.newProductsRecyclerView.setAdapter(adapter);
-                    }
-                });
+                .observeOn(AndroidSchedulers.mainThread());
+        Observer<List<Product>> observer = new Observer<List<Product>>() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(@NonNull List<Product> products) {
+                if (mAdapter == null) {
+                    mAdapter = new ProductAdapter(getActivity(), products);
+                    mBinding.newProductsRecyclerView.setAdapter(mAdapter);
+                }else
+                    mBinding.newProductsRecyclerView.notify();
+
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+
+        observable.subscribe(observer);
         return mBinding.getRoot();
     }
 }
