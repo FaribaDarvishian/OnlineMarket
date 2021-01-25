@@ -201,4 +201,12 @@ public class Product {
 
     @SerializedName("dimensions")
     private Dimensions dimensions;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

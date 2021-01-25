@@ -1,16 +1,16 @@
 package com.example.digikala.data.model.remote.retrofit;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.http.Query;
-
 public class NetworkParams {
     public static final String BASE_URL = "https://woocommerce.maktabsharif.ir/wp-json/wc/v3/";
-    public static final String CONSUMER_KEY = "ck_c861fcab5b71d1251a46ae06f976b58e142084db";
-    public static final String CONSUMER_SECRET = "cs_a0c53a079b4416512c5bc6db7cb311b640f75cde";
+    public static final String CONSUMER_KEY = "ck_f025265e3479f7bee8e93bffe5685517b93ec27d";
+    public static final String CONSUMER_SECRET = "cs_27b19e572ac9cf1333d4d53f7082a15e9fb6a2b0";
+
+    public static final String API_KEY = "?consumer_key=" +
+            CONSUMER_KEY +
+            "&consumer_secret=" +
+            CONSUMER_SECRET;
 
     public static Map<String, String> BASE_OPTIONS = new HashMap<String, String>() {{
         put("consumer_key", CONSUMER_KEY);
