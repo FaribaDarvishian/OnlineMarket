@@ -1,4 +1,4 @@
-package com.example.digikala.data.model.remote.retrofit;
+package com.example.digikala.data.remote;
 
 import java.util.HashMap;
 import java.util.Map;

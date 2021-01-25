@@ -1,10 +1,9 @@
-package com.example.digikala.data.model.remote.retrofit;
+package com.example.digikala.data.remote.retrofit;
 
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static  com.example.digikala.data.model.remote.retrofit.NetworkParams.BASE_URL;
+import static  com.example.digikala.data.remote.NetworkParams.BASE_URL;
 
 public class RetrofitInstance {
     private static Retrofit sRetrofit;
@@ -14,7 +13,6 @@ public class RetrofitInstance {
             sRetrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
         }
         return sRetrofit;

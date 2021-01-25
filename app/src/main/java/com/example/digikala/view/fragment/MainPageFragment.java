@@ -1,6 +1,7 @@
 package com.example.digikala.view.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,33 +9,32 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.digikala.R;
 import com.example.digikala.adapter.ProductAdapter;
 import com.example.digikala.data.model.product.Product;
-import com.example.digikala.data.model.remote.retrofit.NetworkParams;
-import com.example.digikala.data.model.remote.retrofit.RetrofitInstance;
-import com.example.digikala.data.model.remote.retrofit.WooCommerceAPI;
+import com.example.digikala.data.remote.NetworkParams;
+import com.example.digikala.data.remote.retrofit.RetrofitInstance;
+import com.example.digikala.data.remote.retrofit.WooCommerceAPI;
 import com.example.digikala.databinding.FragmentMainPageBinding;
-
+import com.example.digikala.viewmodel.MainPageViewModel;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainPageFragment extends Fragment {
-    FragmentMainPageBinding mBinding;
-    WooCommerceAPI mWooCommerceAPI;
-    CompositeDisposable mDisposable;
-    ProductAdapter mAdapter;
-    private final MutableLiveData<List<Product>> mLatestProductsLiveData = new MutableLiveData<>();
+    private FragmentMainPageBinding mBinding;
+    private ProductAdapter mLatestAdapter;
+    private MainPageViewModel mViewModel;
+
     public MainPageFragment() {
         // Required empty public constructor
     }
@@ -49,8 +49,28 @@ public class MainPageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Retrofit retrofit = RetrofitInstance.getInstance();
-        mWooCommerceAPI = retrofit.create(WooCommerceAPI.class);
+
+        mViewModel = new ViewModelProvider(requireActivity()).get(MainPageViewModel.class);
+
+        mViewModel.getLatestProducts().observe(this, new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> products) {
+                Log.d("mehrdad", products.get(products.size() - 1).getName());
+                updateUI();
+            }
+        });
+
+        mViewModel.setLatestProducts();
+
+    }
+
+    private void updateUI() {
+        if (mLatestAdapter == null) {
+            mLatestAdapter = new ProductAdapter(getActivity(), mViewModel.getLatestProducts().getValue());
+            mBinding.newProductsRecyclerView.setAdapter(mLatestAdapter);
+        } else {
+            mLatestAdapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -89,39 +109,18 @@ public class MainPageFragment extends Fragment {
                         ProductAdapter adapter = new ProductAdapter(getActivity(), products);
                         mBinding.newProductsRecyclerView.setAdapter(adapter);
                     }
-                });*/
 
-        Observable<List<Product>> observable = mWooCommerceAPI.getProducts(NetworkParams.getProducts(6, 2, "date"))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-        Observer<List<Product>> observer = new Observer<List<Product>>() {
-            @Override
-            public void onSubscribe(@NonNull Disposable d) {
 
-            }
 
-            @Override
-            public void onNext(@NonNull List<Product> products) {
-                if (mAdapter == null) {
-                    mAdapter = new ProductAdapter(getActivity(), products);
-                    mBinding.newProductsRecyclerView.setAdapter(mAdapter);
-                }else
-                    mBinding.newProductsRecyclerView.notify();
 
-            }
 
-            @Override
-            public void onError(@NonNull Throwable e) {
 
-            }
+        @Override
+        public void onFailure(Call<List<Product>> call, Throwable t) {
 
-            @Override
-            public void onComplete() {
+        }
+    });*/
 
-            }
-        };
-
-        observable.subscribe(observer);
         return mBinding.getRoot();
     }
 }
