@@ -44,4 +44,3 @@ public class ProductDetailsFragment extends Fragment {
         return mBinding.getRoot();
     }
     }
-}
