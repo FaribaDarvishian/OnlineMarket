@@ -4,10 +4,25 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+
+import android.content.Context;
+import android.content.Intent;
+import android.database.DatabaseUtils;
+import android.os.Bundle;
+
+import com.example.digikala.R;
+import com.example.digikala.databinding.ActivityMainPageBinding;
+import com.example.digikala.databinding.FragmentMainPageBinding;
+import com.example.digikala.view.fragment.MainPageFragment;
 
 import com.example.digikala.view.fragment.MainPageFragment;
 
-public class MainPageActivity extends SingleFragmentActivity {
+public class MainPageActivity extends AppCompatActivity {
+    private ActivityMainPageBinding mBinding;
 
 
     public static Intent newIntent(Context context) {
@@ -15,10 +30,10 @@ public class MainPageActivity extends SingleFragmentActivity {
         return intent;
     }
 
-    @Override
-    public Fragment createFragment() {
-        return MainPageFragment.newInstance();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(R.style.Theme_Digikala);
+        super.onCreate(savedInstanceState);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main_page);
+
     }
-
-
 }
