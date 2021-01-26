@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.digikala.R;
 import com.example.digikala.data.model.product.Product;
 import com.example.digikala.databinding.ListItemProductBinding;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     }
 
     public ProductAdapter(Context context, List<Product> items) {
-        mContext = context;
+        mContext = context.getApplicationContext();
         mItems = items;
     }
 
@@ -65,7 +66,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
         public void bindProduct(Product product) {
             mProduct = product;
-            mListItemProductBinding.productTitle.setText(product.getName());
+            mListItemProductBinding.setProduct(product);
+            Picasso.get()
+                    .load(product.getImages().get(0).getSrc())
+                    .placeholder(R.drawable.logo)
+                    .into(mListItemProductBinding.productImage);
+            mListItemProductBinding.executePendingBindings();
+//            mListItemProductBinding.productTitle.setText(product.getName());
+
         }
     }
 }

@@ -209,4 +209,12 @@ public class Product {
     public void setName(String name) {
         this.name = name;
     }
+
+    public List<ImagesItem> getImages() {
+        return images;
+    }
+
+    public String getPrice() {
+        return price;
+    }
 }
