@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class Product implements Serializable {
+public class Product  {
     @SerializedName("upsell_ids")
     private List<Object> upsellIds;
 
@@ -218,7 +218,8 @@ public class Product implements Serializable {
     }
 
     public String getPrice() {
-        return price;
+
+        return priceFormatter(price)+" تومان";
     }
     public String getFeaturedImageUrl() {
         return getImages().get(0).getSrc();
@@ -226,5 +227,22 @@ public class Product implements Serializable {
 
     public int getId() {
         return id;
+    }
+    public String getRegularPrice() {
+        return priceFormatter(regularPrice);
+    }
+
+    public boolean isOnSale() {
+        return onSale;
+    }
+
+    private String priceFormatter(String price) {
+        String result = "";
+        while (price.length() > 3) {
+            result = ","+price.substring(price.length()-3).concat(result);
+            price = price.substring(0, price.length()-3);
+        }
+        result = price.concat(result);
+        return result;
     }
 }

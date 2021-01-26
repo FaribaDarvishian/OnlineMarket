@@ -26,6 +26,7 @@ import java.util.List;
 import static com.example.digikala.view.fragment.ProductDetailsFragment.ARG_PRODUCT_ID;
 
 
+
 public class MainPageFragment extends Fragment implements ProductAdapter.OnProductListener {
     public static final String TAG = "Main Page Fragment";
     private FragmentMainPageBinding mBinding;
@@ -35,6 +36,7 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
     private ProductAdapter mTopRatedAdapter;
     private MainPageFragment mListener = this;
     private NavController mNavController;
+
 
     public MainPageFragment() {
         // Required empty public constructor
@@ -50,10 +52,9 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mViewModel = new ViewModelProvider(requireActivity()).get(MainPageViewModel.class);
-
         mViewModel.setInitialData();
+
         initAdapters();
         setObservers();
     }
@@ -62,9 +63,8 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
         mLatestAdapter = new ProductAdapter(this);
         mPopularAdapter = new ProductAdapter(this);
         mTopRatedAdapter = new ProductAdapter(this);
-
-
     }
+
     private void setObservers() {
         mViewModel.getLatestProducts().observe(this, new Observer<List<Product>>() {
             @Override
@@ -90,8 +90,6 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
                 mTopRatedAdapter.notifyDataSetChanged();
             }
         });
-
-
     }
 
 
@@ -108,12 +106,11 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
         mBinding.popularRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, true));
         mBinding.topRatedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, true));
 
-
         mBinding.newProductsRecyclerView.setAdapter(mLatestAdapter);
         mBinding.topRatedRecyclerView.setAdapter(mTopRatedAdapter);
         mBinding.popularRecyclerView.setAdapter(mPopularAdapter);
-        /*
-   mWooCommerceAPI.getAllProducts().enqueue(new Callback<List<Product>>() {
+
+/*        mWooCommerceAPI.getAllProducts().enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful()) {
@@ -122,12 +119,12 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
                     mBinding.newProductsRecyclerView.setAdapter(adapter);
                 }
             }
+
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
+
             }
         });*/
-
-
 /*        mWooCommerceAPI.getAllProducts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -137,32 +134,37 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
                         ProductAdapter adapter = new ProductAdapter(getActivity(), products);
                         mBinding.newProductsRecyclerView.setAdapter(adapter);
                     }
+                });*/
+/*        mWooCommerceAPI.getProducts(NetworkParams.getProducts(30, 1, "date"))
+                .enqueue(new Callback<List<Product>>() {
+                    @Override
+                    public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                        mLatestAdapter = new ProductAdapter(getActivity(), response.body());
+                        mBinding.newProductsRecyclerView.setAdapter(mLatestAdapter);
+                    }
 
+                    @Override
+                    public void onFailure(Call<List<Product>> call, Throwable t) {
 
-
-
-
-
-        @Override
-        public void onFailure(Call<List<Product>> call, Throwable t) {
-
-        }
-    });*/
-
-
+                    }
+                });*/
         Log.d(TAG, "onCreateView: " + mLatestAdapter == null ? "nulll" : "pore");
 
         return mBinding.getRoot();
     }
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mNavController = Navigation.findNavController(view);
     }
+
     @Override
     public void onProductClicked(Product product) {
         Log.d(TAG, "onProductClicked: " + product.getName());
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_PRODUCT_ID, product.getId());
-        mNavController.navigate(R.id.action_mainPageFragment_to_productDetailsFragment, bundle);    }
+        mNavController.navigate(R.id.action_mainPageFragment_to_productDetailsFragment, bundle);
+    }
 }
