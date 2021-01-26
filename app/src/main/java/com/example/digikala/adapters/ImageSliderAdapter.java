@@ -13,13 +13,18 @@ import com.example.digikala.data.model.product.ImagesItem;
 import com.example.digikala.databinding.ImageSlideContainerBinding;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class ImageSliderAdapter extends RecyclerView.Adapter<com.example.digikala.adapters.ImageSliderAdapter.SliderViewHolder> {
     private List<ImagesItem> mSliderItems;
 
-    public ImageSliderAdapter(List<ImagesItem> sliderItems) {
+    public ImageSliderAdapter() {
+        mSliderItems = new ArrayList<>();
+    }
+
+    public void setSliderItems(List<ImagesItem> sliderItems) {
         mSliderItems = sliderItems;
     }
 

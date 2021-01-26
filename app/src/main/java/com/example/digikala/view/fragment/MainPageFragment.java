@@ -23,6 +23,7 @@ import com.example.digikala.databinding.FragmentMainPageBinding;
 import com.example.digikala.viewmodel.MainPageViewModel;
 import java.util.List;
 
+import static com.example.digikala.view.fragment.ProductDetailsFragment.ARG_PRODUCT_ID;
 
 
 public class MainPageFragment extends Fragment implements ProductAdapter.OnProductListener {
@@ -162,6 +163,6 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
     public void onProductClicked(Product product) {
         Log.d(TAG, "onProductClicked: " + product.getName());
         Bundle bundle = new Bundle();
-        bundle.putSerializable("product", product);
+        bundle.putInt(ARG_PRODUCT_ID, product.getId());
         mNavController.navigate(R.id.action_mainPageFragment_to_productDetailsFragment, bundle);    }
 }
