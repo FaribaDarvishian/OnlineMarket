@@ -10,10 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.digikala.R;
+import com.example.digikala.databinding.FragmentProductDetailsBinding;
 import com.example.digikala.databinding.ListItemProductBinding;
 
 public class ProductDetailsFragment extends Fragment {
-    private ListItemProductBinding mBinding;
+    private FragmentProductDetailsBinding mBinding;
     public ProductDetailsFragment() {
         // Required empty public constructor
     }

@@ -12,7 +12,7 @@ import retrofit2.http.QueryMap;
 public interface WooCommerceAPI {
 
     @GET("products")
-    Call<List<Product>> getLatestProducts(@QueryMap Map<String, String> options);
+    Call<List<Product>> getProducts(@QueryMap Map<String, String> options);
 
     @GET("products")
     Call<List<Product>> getAllProducts();
