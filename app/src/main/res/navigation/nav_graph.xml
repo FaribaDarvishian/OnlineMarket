@@ -19,7 +19,10 @@
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
-        android:name="com.example.digikala.view.fragment.ProductDetailsFragment"
-        android:label="ProductDetailsFragment" />
+        android:label="ProductDetailsFragment" >
+        <argument android:name="product"
+            app:argType="com.example.digikala.data.model.product.Product"/>
+
+    </fragment>
 
 </navigation>

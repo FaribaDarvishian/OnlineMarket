@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.digikala.R;
+import com.example.digikala.adapters.ImageSliderAdapter;
+import com.example.digikala.data.model.product.Product;
 import com.example.digikala.databinding.FragmentProductDetailsBinding;
 import com.example.digikala.databinding.ListItemProductBinding;
 
@@ -19,12 +21,6 @@ public class ProductDetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ProductDetailsFragment newInstance(String param1, String param2) {
-        ProductDetailsFragment fragment = new ProductDetailsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +37,10 @@ public class ProductDetailsFragment extends Fragment {
                 container,
                 false
         );
+       // mBinding.imageViewPager.
+                Product product= (Product) getArguments().getSerializable("product");
+        ImageSliderAdapter adapter=new ImageSliderAdapter(product.getImages());
+        mBinding.imageViewPager.setAdapter(adapter);
 
         return mBinding.getRoot();
     }

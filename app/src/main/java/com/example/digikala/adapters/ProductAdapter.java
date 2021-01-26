@@ -1,13 +1,10 @@
-package com.example.digikala.adapter;
+package com.example.digikala.adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.digikala.R;
@@ -62,12 +59,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
     public class ProductHolder extends RecyclerView.ViewHolder {
         private ListItemProductBinding mListItemProductBinding;
-        private OnProductListener mOnProductListener;
+
 
         public ProductHolder(ListItemProductBinding listItemProductBinding, OnProductListener listener) {
             super(listItemProductBinding.getRoot());
             mListItemProductBinding = listItemProductBinding;
-            mOnProductListener = listener;
             mListItemProductBinding.setListener(listener);
         }
 

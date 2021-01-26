@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
-import android.database.DatabaseUtils;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,7 +17,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.digikala.R;
-import com.example.digikala.adapter.ProductAdapter;
+import com.example.digikala.adapters.ProductAdapter;
 import com.example.digikala.data.model.product.Product;
 import com.example.digikala.databinding.FragmentMainPageBinding;
 import com.example.digikala.viewmodel.MainPageViewModel;
@@ -162,6 +161,7 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
     @Override
     public void onProductClicked(Product product) {
         Log.d(TAG, "onProductClicked: " + product.getName());
-        mNavController.navigate(R.id.action_mainPageFragment_to_productDetailsFragment);
-    }
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("product", product);
+        mNavController.navigate(R.id.action_mainPageFragment_to_productDetailsFragment, bundle);    }
 }
