@@ -1,5 +1,7 @@
 package com.example.digikala.viewmodel;
 
+import android.os.Build;
+import android.text.Html;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -13,7 +15,7 @@ public class ProductDetailsViewModel extends ViewModel {
 
     public ProductDetailsViewModel() {
         mRepository = ProductRepository.getInstance();
-        mSelectedProduct=new MutableLiveData<>();
+        mSelectedProduct = new MutableLiveData<>();
         mSelectedProduct = mRepository.getSelectedProductLiveData();
     }
 
@@ -23,11 +25,19 @@ public class ProductDetailsViewModel extends ViewModel {
     }
 
     public LiveData<Product> getSelectedProduct() {
-        mSelectedProduct=mRepository.getSelectedProductLiveData();
+        mSelectedProduct = mRepository.getSelectedProductLiveData();
         return mRepository.getSelectedProductLiveData();
     }
 
     public int getNumberOfImages(){
+
         return mSelectedProduct.getValue().getImages().size();
+    }
+    public String getFormattedDescription() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(mSelectedProduct.getValue().getDescription(), Html.FROM_HTML_MODE_COMPACT).toString();
+        } else {
+            return Html.fromHtml(mSelectedProduct.getValue().getDescription()).toString();
+        }
     }
 }

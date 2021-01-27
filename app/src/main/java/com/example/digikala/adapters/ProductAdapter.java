@@ -1,5 +1,6 @@
 package com.example.digikala.adapters;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -64,6 +65,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         public ProductHolder(ListItemProductBinding listItemProductBinding, OnProductListener listener) {
             super(listItemProductBinding.getRoot());
             mListItemProductBinding = listItemProductBinding;
+            mListItemProductBinding.productRegularPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             mListItemProductBinding.setListener(listener);
         }
 

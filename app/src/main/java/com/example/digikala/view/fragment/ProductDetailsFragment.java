@@ -1,5 +1,6 @@
 package com.example.digikala.view.fragment;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import android.os.Handler;
@@ -68,6 +69,9 @@ public class ProductDetailsFragment extends Fragment {
         );
 
         mBinding.imageViewPager.setAdapter(mImageSliderAdapter);
+        mBinding.regularPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+      //  Handel the arrival UI
+      //  updateUI();
 
         return mBinding.getRoot();
     }
