@@ -29,7 +29,7 @@ import com.example.digikala.viewmodel.CategoriesViewModel;
 
 
 import java.util.List;
-import static com.example.digikala.view.fragment.ProductListFragment.ARGS_CATEGORY_NAME;
+import static com.example.digikala.view.fragment.ProductListFragment.ARGS_TITLE;
 import static com.example.digikala.view.fragment.ProductListFragment.ARGS_OPTIONS;
 
 public class CategoryFragment extends Fragment  implements SubCategoryAdapter.OnCategoryListener{
@@ -44,7 +44,7 @@ public class CategoryFragment extends Fragment  implements SubCategoryAdapter.On
     }
 
     public static CategoryFragment newInstance() {
-        com.example.digikala.view.fragment.CategoryFragment fragment = new com.example.digikala.view.fragment.CategoryFragment();
+        CategoryFragment fragment = new CategoryFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -94,7 +94,7 @@ public class CategoryFragment extends Fragment  implements SubCategoryAdapter.On
         Bundle bundle=new Bundle();
         Options options = new Options(categoryId);
         bundle.putSerializable(ARGS_OPTIONS, options);
-        bundle.putString(ARGS_CATEGORY_NAME,categoryName);
+        bundle.putString(ARGS_TITLE,categoryName);
         mNavController.navigate(R.id.action_categoryFragment_to_productListFragment, bundle);
     }
 }

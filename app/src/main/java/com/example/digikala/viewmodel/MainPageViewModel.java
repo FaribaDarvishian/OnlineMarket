@@ -6,8 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
+
 import com.example.digikala.data.model.product.Product;
 import com.example.digikala.data.repository.ProductRepository;
+import com.example.digikala.data.model.Options;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,14 @@ public class MainPageViewModel extends ViewModel {
         setLatestProducts();
         setPopularProducts();
         setTopRatedProducts();
+    }
+    public void setSearchedProducts(String query) {
+        Options options = new Options(query);
+        mRepository.setProductByOptionsLiveData(options);
+    }
+
+    public LiveData<List<Product>> getSearchedProducts() {
+        return mRepository.getProductByOptionsLiveData();
     }
 
     private void setTopRatedProducts() {

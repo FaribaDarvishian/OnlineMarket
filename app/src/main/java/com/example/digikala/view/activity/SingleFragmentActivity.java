@@ -41,11 +41,11 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                     .add(R.id.nav_host_fragment, createFragment(), FRAGMENT_TAG)
                     .commit();
         }
-        //Set bottom navigation
-        mNavController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(mBinding.bottomNavigation, mNavController);
-//Set navigation up button
-        mAppBarConfiguration = new AppBarConfiguration.Builder(mNavController.getGraph())
+            //Set bottom navigation
+            mNavController = Navigation.findNavController(this, R.id.nav_host_fragment);
+            NavigationUI.setupWithNavController(mBinding.bottomNavigation, mNavController);
+            //Set navigation up button
+           mAppBarConfiguration = new AppBarConfiguration.Builder(mNavController.getGraph())
                 .setOpenableLayout(mBinding.drawerLayout)
                 .build();
         NavigationUI.setupActionBarWithNavController(this,
