@@ -8,7 +8,7 @@ public class Category{
 	private int parent;
 
 	@SerializedName("image")
-	private com.example.digikala.data.model.product.Image image;
+	private Image image;
 
 	@SerializedName("menu_order")
 	private int menuOrder;
@@ -34,7 +34,7 @@ public class Category{
 	@SerializedName("slug")
 	private String slug;
 
-	public com.example.digikala.data.model.product.Image getImage() {
+	public Image getImage() {
 		return image;
 	}
 

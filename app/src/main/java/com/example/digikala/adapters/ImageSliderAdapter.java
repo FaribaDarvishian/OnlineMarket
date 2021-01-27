@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ImageSliderAdapter extends RecyclerView.Adapter<com.example.digikala.adapters.ImageSliderAdapter.SliderViewHolder> {
+public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.SliderViewHolder> {
     private List<ImagesItem> mSliderItems;
 
     public ImageSliderAdapter() {

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.digikala.R;
 import com.example.digikala.data.model.product.Category;
+import com.example.digikala.data.model.product.Product;
 import com.example.digikala.databinding.ListItemDefaultCategoryBinding;
 import com.example.digikala.viewmodel.CategoriesViewModel;
 
@@ -94,5 +95,8 @@ public class DefaultCategoryAdapter extends RecyclerView.Adapter<com.example.dig
                         }
                     });
         }
+    }
+    public interface OnCategoryListener {
+        public void onCategoryClicked(int categoryId);
     }
 }

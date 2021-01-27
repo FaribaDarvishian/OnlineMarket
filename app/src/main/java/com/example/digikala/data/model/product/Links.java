@@ -7,8 +7,8 @@ import java.util.List;
 public class Links{
 
 	@SerializedName("self")
-	private List<com.example.digikala.data.model.product.SelfItem> self;
+	private List<SelfItem> self;
 
 	@SerializedName("collection")
-	private List<com.example.digikala.data.model.product.CollectionItem> collection;
+	private List<CollectionItem> collection;
 }

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.digikala.R;
 import com.example.digikala.adapters.ProductAdapter;
+import com.example.digikala.data.model.Options;
 import com.example.digikala.data.model.product.Product;
 import com.example.digikala.databinding.FragmentMainPageBinding;
 import com.example.digikala.viewmodel.MainPageViewModel;
@@ -165,5 +166,8 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_PRODUCT_ID, product.getId());
         mNavController.navigate(R.id.action_mainPageFragment_to_productDetailsFragment, bundle);
+        //  Options options = new Options(76);
+        //  bundle.putSerializable("OPTIONS", options);
+        //  mNavController.navigate(R.id.action_mainPageFragment_to_productListFragment, bundle);
     }
 }

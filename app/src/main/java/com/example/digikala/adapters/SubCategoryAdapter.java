@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubCategoryAdapter extends RecyclerView.Adapter<com.example.digikala.adapters.SubCategoryAdapter.SubCategoryHolder> {
+public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.SubCategoryHolder> {
     private static final String TAG = "Sub Category Adapter";
     private List<Category> mItems;
 

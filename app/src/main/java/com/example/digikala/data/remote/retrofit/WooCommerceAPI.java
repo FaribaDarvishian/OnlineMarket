@@ -22,7 +22,6 @@ public interface WooCommerceAPI {
     @GET("products/{productId}")
     Call<Product> getProductById(@Path("productId")int productId,@QueryMap Map<String, String> options);
 
-
     @GET("products/categories?per_page=100")
     Call<List<Category>> getCategories(@QueryMap Map<String, String> options);
 
