@@ -29,10 +29,9 @@ import com.example.digikala.viewmodel.ProductDetailsViewModel;
 public class ProductDetailsFragment extends Fragment {
     public static final String ARG_PRODUCT_ID = "ProductId";
     private FragmentProductDetailsBinding mBinding;
-
     private ProductDetailsViewModel mViewModel;
-    private LiveData<Product> mProduct;
     private ImageSliderAdapter mImageSliderAdapter;
+
     public ProductDetailsFragment() {
         // Required empty public constructor
     }
@@ -41,12 +40,12 @@ public class ProductDetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initData();
+        initImageSliderAdapter();
+        setObservers();
+    }
 
-        int productID = getArguments().getInt(ARG_PRODUCT_ID);
-        mViewModel = new ViewModelProvider(this).get(ProductDetailsViewModel.class);
-        mViewModel.setSelectedProduct(productID);
-        mProduct = mViewModel.getSelectedProduct();
-        mImageSliderAdapter = new ImageSliderAdapter();
+    private void setObservers() {
         mViewModel.getSelectedProduct().observe(this, new Observer<Product>() {
             @Override
             public void onChanged(Product product) {
@@ -55,7 +54,17 @@ public class ProductDetailsFragment extends Fragment {
                 updateUI();
             }
         });
+    }
 
+    private void initImageSliderAdapter() {
+        mImageSliderAdapter = new ImageSliderAdapter();
+    }
+
+    private void initData() {
+        int productID = getArguments().getInt(ARG_PRODUCT_ID);
+        mViewModel = new ViewModelProvider(this).get(ProductDetailsViewModel.class);
+        mViewModel.setSelectedProduct(productID);
+//        mProduct = mViewModel.getSelectedProduct();
     }
 
     @Override
@@ -67,14 +76,15 @@ public class ProductDetailsFragment extends Fragment {
                 container,
                 false
         );
-
         mBinding.imageViewPager.setAdapter(mImageSliderAdapter);
+        //Add strike for regular price textView
         mBinding.regularPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-      //  Handel the arrival UI
-      //  updateUI();
-
+//        Handel the arrival UI
+//        updateUI();
         return mBinding.getRoot();
     }
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -83,7 +93,7 @@ public class ProductDetailsFragment extends Fragment {
 
     private void updateUI() {
         setImageSlider();
-
+        mBinding.setProductDetailsViewModel(mViewModel);
     }
 
     private void setImageSlider() {
