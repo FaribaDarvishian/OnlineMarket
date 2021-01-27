@@ -30,8 +30,8 @@ import static com.example.digikala.view.fragment.ProductDetailsFragment.ARG_PROD
 public class MainPageFragment extends Fragment implements ProductAdapter.OnProductListener {
     public static final String TAG = "Main Page Fragment";
     private FragmentMainPageBinding mBinding;
-    private ProductAdapter mLatestAdapter;
     private MainPageViewModel mViewModel;
+    private ProductAdapter mLatestAdapter;
     private ProductAdapter mPopularAdapter;
     private ProductAdapter mTopRatedAdapter;
     private MainPageFragment mListener = this;

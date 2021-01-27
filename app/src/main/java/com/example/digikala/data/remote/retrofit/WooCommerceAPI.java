@@ -1,5 +1,5 @@
 package com.example.digikala.data.remote.retrofit;
-
+import com.example.digikala.data.model.product.Category;
 import com.example.digikala.data.model.product.Product;
 
 import java.util.List;
@@ -22,6 +22,9 @@ public interface WooCommerceAPI {
     @GET("products/{productId}")
     Call<Product> getProductById(@Path("productId")int productId,@QueryMap Map<String, String> options);
 
+
+    @GET("products/categories?per_page=100")
+    Call<List<Category>> getCategories(@QueryMap Map<String, String> options);
 
 
 }

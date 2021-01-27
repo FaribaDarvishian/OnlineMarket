@@ -2,7 +2,6 @@ package com.example.digikala.data.repository;
 
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.digikala.data.model.product.Product;
@@ -12,7 +11,6 @@ import com.example.digikala.data.remote.retrofit.WooCommerceAPI;
 
 import java.util.List;
 
-import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
