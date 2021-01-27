@@ -25,9 +25,10 @@ import com.example.digikala.view.fragment.MainPageFragment;
 
 import com.example.digikala.view.fragment.MainPageFragment;
 
-public class MainPageActivity extends AppCompatActivity {
+public class MainPageActivity extends SingleFragmentActivity {
     private ActivityMainPageBinding mBinding;
-    private NavController mNavController;
+
+   // private NavController mNavController;
 
 
     public static Intent newIntent(Context context) {
@@ -35,12 +36,19 @@ public class MainPageActivity extends AppCompatActivity {
         return intent;
     }
 
+    @Override
+    public Fragment createFragment() {
+        return MainPageFragment.newInstance();
+    }
+
+/*    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setTheme(R.style.Theme_Digikala);
+        setTheme(R.style.Theme_OnlineMarket);
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main_page);
+        mBinding= DataBindingUtil.setContentView(this,R.layout.activity_main_page);
+
         mNavController= Navigation.findNavController(this,R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(mBinding.bottomNavigation,mNavController);
 
-    }
+    }*/
 }
