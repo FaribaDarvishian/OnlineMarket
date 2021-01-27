@@ -28,9 +28,11 @@ import java.util.List;
 
 
 import static com.example.digikala.view.fragment.ProductDetailsFragment.ARG_PRODUCT_ID;
+import static com.example.digikala.view.fragment.ProductDetailsFragment.ARG_PRODUCT_NAME;
 
 public class ProductListFragment extends Fragment implements ProductAdapter.OnProductListener {    public static final String TAG = "Product List Fragment";
-    public static final String ARGS_OPTIONS = "OPTIONS";
+    public static final String ARGS_OPTIONS = "options";
+    public static final String ARGS_CATEGORY_NAME = "name";
     private FragmentProductListBinding mBinding;
     private ProductListViewModel mViewModel;
     private ProductAdapter mProductAdapter;
@@ -102,6 +104,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.OnPr
     public void onProductClicked(Product product) {
         Bundle bundle=new Bundle();
         bundle.putInt(ARG_PRODUCT_ID,product.getId());
+        bundle.putString(ARG_PRODUCT_NAME,product.getName());
         mNavController.navigate(R.id.action_productListFragment_to_productDetailsFragment,bundle);
     }
 }

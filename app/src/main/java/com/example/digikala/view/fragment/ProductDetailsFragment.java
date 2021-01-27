@@ -28,6 +28,7 @@ import com.example.digikala.viewmodel.ProductDetailsViewModel;
 
 public class ProductDetailsFragment extends Fragment {
     public static final String ARG_PRODUCT_ID = "ProductId";
+    public static final String ARG_PRODUCT_NAME = "name";
     private FragmentProductDetailsBinding mBinding;
     private ProductDetailsViewModel mViewModel;
     private ImageSliderAdapter mImageSliderAdapter;
