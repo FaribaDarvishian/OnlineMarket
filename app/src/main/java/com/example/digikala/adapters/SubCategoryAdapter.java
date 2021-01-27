@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.digikala.R;
 import com.example.digikala.data.model.product.Category;
 import com.example.digikala.databinding.ListItemSubCategoryBinding;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,11 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<com.example.digikal
         public void bindSubCategory(Category category) {
             mBinding.setCategory(category);
             mBinding.executePendingBindings();
-            Log.d(TAG, "bindSubCategory: "+category.getName());
+            Picasso.get()
+                    .load(category.getImage().getSrc())
+                    .placeholder(R.drawable.logo)
+                    .into(mBinding.categoryImage);
+            Log.d(TAG, "bindSubCategory: " + category.getName());
         }
     }
 }
