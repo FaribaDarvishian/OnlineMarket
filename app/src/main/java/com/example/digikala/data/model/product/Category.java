@@ -65,6 +65,10 @@ public class Category{
 	public int getId() {
 		return id;
 	}
+	public int getParent() {
+		return parent;
+	}
+
 
 	@Override
 	public String toString() {
