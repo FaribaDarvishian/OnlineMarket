@@ -25,6 +25,8 @@ public class DefaultCategoryAdapter extends RecyclerView.Adapter<com.example.dig
     private List<Category> mItems;
     private CategoriesViewModel mCategoriesViewModel;
     private LifecycleOwner mOwner;
+    private SubCategoryAdapter.OnCategoryListener mCategoryListener;
+
 
 
     public List<Category> getItems() {
@@ -35,10 +37,11 @@ public class DefaultCategoryAdapter extends RecyclerView.Adapter<com.example.dig
         mItems = items;
     }
 
-    public DefaultCategoryAdapter(LifecycleOwner owner, CategoriesViewModel viewModel) {
+    public DefaultCategoryAdapter(LifecycleOwner owner, CategoriesViewModel viewModel, SubCategoryAdapter.OnCategoryListener listener) {
         mItems = new ArrayList<>();
         mOwner = owner;
         mCategoriesViewModel = viewModel;
+        mCategoryListener=listener;
     }
 
     @NonNull
@@ -50,7 +53,7 @@ public class DefaultCategoryAdapter extends RecyclerView.Adapter<com.example.dig
                 parent,
                 false
         );
-        return new DefaultCategoryHolder(listItemDefaultCategoryBinding);
+        return new DefaultCategoryHolder(listItemDefaultCategoryBinding,mCategoryListener);
     }
 
     @Override
@@ -67,11 +70,12 @@ public class DefaultCategoryAdapter extends RecyclerView.Adapter<com.example.dig
         ListItemDefaultCategoryBinding mBinding;
         public com.example.digikala.adapters.SubCategoryAdapter mSubCategoryAdapter;
 
-        public DefaultCategoryHolder(ListItemDefaultCategoryBinding listItemDefaultCategoryBinding) {
+        public DefaultCategoryHolder(ListItemDefaultCategoryBinding listItemDefaultCategoryBinding, SubCategoryAdapter.OnCategoryListener listener) {
             super(listItemDefaultCategoryBinding.getRoot());
             mBinding = listItemDefaultCategoryBinding;
+            mBinding.setListener(listener);
             mBinding.subCategoryRecyclerView.setLayoutManager(new LinearLayoutManager(mCategoriesViewModel.getApplication(), RecyclerView.HORIZONTAL, true));
-            mSubCategoryAdapter = new com.example.digikala.adapters.SubCategoryAdapter();
+            mSubCategoryAdapter = new SubCategoryAdapter(mCategoryListener);
             mBinding.subCategoryRecyclerView.setAdapter(mSubCategoryAdapter);
         }
 
@@ -96,7 +100,5 @@ public class DefaultCategoryAdapter extends RecyclerView.Adapter<com.example.dig
                     });
         }
     }
-    public interface OnCategoryListener {
-        public void onCategoryClicked(int categoryId);
-    }
+
 }
