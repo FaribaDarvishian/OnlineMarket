@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.digikala.data.model.product.Product;
 import com.example.digikala.data.repository.ProductRepository;
 import com.example.digikala.data.model.Options;
+import com.example.digikala.data.model.product.ImagesItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,17 @@ public class MainPageViewModel extends ViewModel {
         setLatestProducts();
         setPopularProducts();
         setTopRatedProducts();
+        setOnSaleProducts();
+    }
+
+    private void setOnSaleProducts() {
+        Options options = new Options();
+        options.setOsSale(true);
+        mRepository.setOnSaleProductsLiveData(options);
+    }
+
+    public LiveData<List<Product>> getOnSaleProducts() {
+        return mRepository.getOnSaleProductsLiveData();
     }
     public void setSearchedProducts(String query) {
         Options options = new Options(query);
@@ -59,5 +71,16 @@ public class MainPageViewModel extends ViewModel {
 
     private void setPopularProducts() {
         mRepository.setPopularProductsLiveData();
+    }
+    public List<ImagesItem> getOnSaleImageItems(List<Product> products) {
+        List<ImagesItem> result = new ArrayList<>();
+        for (Product product : products
+        ) {
+            result.add(product.getFeatureImageItem());
+        }
+        return result;
+    }
+    public int getOnSaleProductSize(){
+        return getOnSaleProducts().getValue().size();
     }
 }

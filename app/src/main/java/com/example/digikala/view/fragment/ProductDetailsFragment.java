@@ -24,6 +24,7 @@ import com.example.digikala.R;
 import com.example.digikala.adapters.ImageSliderAdapter;
 import com.example.digikala.data.model.product.Product;
 import com.example.digikala.databinding.FragmentProductDetailsBinding;
+import com.example.digikala.utils.SliderImageDecorator;
 import com.example.digikala.viewmodel.ProductDetailsViewModel;
 
 public class ProductDetailsFragment extends Fragment {
@@ -93,44 +94,8 @@ public class ProductDetailsFragment extends Fragment {
     }
 
     private void updateUI() {
-        setImageSlider();
+        SliderImageDecorator.SliderImageDecorator(mBinding.imageViewPager);
         mBinding.setProductDetailsViewModel(mViewModel);
     }
 
-    private void setImageSlider() {
-        mBinding.imageViewPager.setClipToPadding(false);
-        mBinding.imageViewPager.setClipChildren(false);
-        mBinding.imageViewPager.setOffscreenPageLimit(1);
-        mBinding.imageViewPager.setPadding(128, 0, 128, 0);
-        mBinding.imageViewPager.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
-        CompositePageTransformer transformer = new CompositePageTransformer();
-        transformer.addTransformer(new MarginPageTransformer(40));
-        transformer.addTransformer(new ViewPager2.PageTransformer() {
-            @Override
-            public void transformPage(@NonNull View page, float position) {
-                float r = 1 - Math.abs(position);
-                page.setScaleY(0.85f + r * 0.15f);
-            }
-        });
-        mBinding.imageViewPager.setPageTransformer(transformer);
-        Handler sliderHandler = new Handler(Looper.getMainLooper());
-        Runnable slideRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (mBinding.imageViewPager.getCurrentItem() == mViewModel.getNumberOfImages() - 1)
-                    mBinding.imageViewPager.setCurrentItem(0);
-                else
-                    mBinding.imageViewPager.setCurrentItem(mBinding.imageViewPager.getCurrentItem() + 1);
-            }
-        };
-        sliderHandler.postDelayed(slideRunnable, 3000);
-        mBinding.imageViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                sliderHandler.removeCallbacks(slideRunnable);
-                sliderHandler.postDelayed(slideRunnable, 3000);
-            }
-        });
-    }
 }

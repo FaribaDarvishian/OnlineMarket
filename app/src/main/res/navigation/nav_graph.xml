@@ -81,4 +81,8 @@
             android:name="callback"
             app:argType="com.example.digikala.view.fragment.BottomSheetFilterDialogFragment$FilterCallback" />
     </dialog>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.digikala.view.fragment.ProfileFragment"
+        android:label="ProfileFragment" />
 </navigation>

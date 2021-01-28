@@ -268,4 +268,7 @@ public class Product  {
     public String getUnformattedPrice(){
         return price;
     }
+    public ImagesItem getFeatureImageItem() {
+        return images.get(0);
+    }
 }

@@ -1,11 +1,14 @@
 package com.example.digikala.view.fragment;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +17,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.view.MenuItemCompat;
+
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -22,13 +25,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.digikala.R;
+import com.example.digikala.adapters.ImageSliderAdapter;
 import com.example.digikala.adapters.ProductAdapter;
 import com.example.digikala.adapters.SearchViewAdapter;
 import com.example.digikala.data.model.Options;
 import com.example.digikala.data.model.product.Product;
 import com.example.digikala.databinding.FragmentMainPageBinding;
+import com.example.digikala.utils.SliderImageDecorator;
 import com.example.digikala.viewmodel.MainPageViewModel;
 
 import java.util.ArrayList;
@@ -47,6 +55,7 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
     private ProductAdapter mLatestAdapter;
     private ProductAdapter mPopularAdapter;
     private ProductAdapter mTopRatedAdapter;
+    private ImageSliderAdapter mImageSliderAdapter;
     private SearchViewAdapter mSearchViewAdapter;
     private MainPageFragment mListener = this;
     private NavController mNavController;
@@ -79,6 +88,7 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
         mPopularAdapter = new ProductAdapter(this);
         mTopRatedAdapter = new ProductAdapter(this);
         mSearchViewAdapter = new SearchViewAdapter(this);
+        mImageSliderAdapter = new ImageSliderAdapter();
     }
 
     private void setObservers() {
@@ -113,7 +123,14 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
                 mSearchViewAdapter.setItems(products);
                 mSearchViewAdapter.notifyDataSetChanged();
                 mBinding.searchProgressBar.setVisibility(View.GONE);
-//                mBinding.searchRecyclerView.setVisibility(View.VISIBLE);
+            }
+        });
+        mViewModel.getOnSaleProducts().observe(this, new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> products) {
+                mImageSliderAdapter.setSliderItems(mViewModel.getOnSaleImageItems(products));
+                mImageSliderAdapter.notifyDataSetChanged();
+                SliderImageDecorator.SliderImageDecorator(mBinding.onSaleImageViewPager);
             }
         });
     }
@@ -129,6 +146,7 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
                 false);
 
         setRecyclerViewsAdapters();
+        SliderImageDecorator.SliderImageDecorator(mBinding.onSaleImageViewPager);
         Log.d(TAG, "onCreateView: Adapters:" + mLatestAdapter == null ? "null" : "full OK");
         return mBinding.getRoot();
     }
@@ -143,6 +161,7 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
         mBinding.topRatedRecyclerView.setAdapter(mTopRatedAdapter);
         mBinding.popularRecyclerView.setAdapter(mPopularAdapter);
         mBinding.searchRecyclerView.setAdapter(mSearchViewAdapter);
+        mBinding.onSaleImageViewPager.setAdapter(mImageSliderAdapter);
     }
 
 
@@ -178,17 +197,17 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Options options=new Options(query);
-                Bundle bundle=new Bundle();
+                Options options = new Options(query);
+                Bundle bundle = new Bundle();
                 bundle.putSerializable(ARGS_OPTIONS, options);
-                bundle.putString(ARGS_TITLE,query);
-                mNavController.navigate(R.id.action_mainPageFragment_to_productListFragment,bundle);
+                bundle.putString(ARGS_TITLE, query);
+                mNavController.navigate(R.id.action_mainPageFragment_to_productListFragment, bundle);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(newText.equals(""))
+                if (newText.equals(""))
                     return false;
                 mBinding.searchProgressBar.setVisibility(View.VISIBLE);
                 mViewModel.setSearchedProducts(newText);

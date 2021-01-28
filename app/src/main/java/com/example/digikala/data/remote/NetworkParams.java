@@ -56,4 +56,11 @@ public class NetworkParams {
         Log.d(TAG, "getProductsByOptions: " + options.toString());
         return queryOptions;
     }
+    public static Map<String, String> getCustomer(String email) {
+        Map<String, String> queryOptions = new HashMap<>();
+        queryOptions.putAll(BASE_OPTIONS);
+        queryOptions.put("email", email);
+        return queryOptions;
+    }
+
 }
