@@ -53,7 +53,18 @@
             app:layout_constraintEnd_toStartOf="@+id/filter_text_view"
             app:layout_constraintTop_toTopOf="parent" />
 
-
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/error_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/market"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:layout_margin="10dp"
+            android:text="متاسفانه هیچ محصولی با مشخصات مورد نظر موجود نمی باشد"
+            android:textSize="50sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/order_spinner" />
         <ProgressBar
             android:id="@+id/product_list_progress_bar"
             android:layout_width="match_parent"
@@ -70,7 +81,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/order_spinner" />
+            app:layout_constraintTop_toBottomOf="@+id/error_text_view" />
 
 
 
