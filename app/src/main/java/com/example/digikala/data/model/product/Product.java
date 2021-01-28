@@ -4,6 +4,7 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 import com.example.digikala.data.model.Attributes;
+import static com.example.digikala.utils.PriceFormatter.priceFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
@@ -238,15 +239,6 @@ public class Product  {
         return onSale;
     }
 
-    private String priceFormatter(String price) {
-        String result = "";
-        while (price.length() > 3) {
-            result = "," + price.substring(price.length() - 3).concat(result);
-            price = price.substring(0, price.length() - 3);
-        }
-        result = price.concat(result);
-        return result;
-    }
     public String getDescription() {
         return description;
     }
@@ -268,6 +260,10 @@ public class Product  {
     public String getUnformattedPrice(){
         return price;
     }
+    public long getLongPrice() {
+        return Long.parseLong(price);
+    }
+
     public ImagesItem getFeatureImageItem() {
         return images.get(0);
     }
