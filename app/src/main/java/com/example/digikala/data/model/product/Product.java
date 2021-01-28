@@ -3,6 +3,7 @@ package com.example.digikala.data.model.product;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import com.example.digikala.data.model.Attributes;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
@@ -200,7 +201,7 @@ public class Product  {
     private List<Integer> relatedIds;
 
     @SerializedName("attributes")
-    private List<Object> attributes;
+    private List<Attributes> attributes;
 
     @SerializedName("dimensions")
     private Dimensions dimensions;
@@ -219,7 +220,7 @@ public class Product  {
 
     public String getPrice() {
 
-        return priceFormatter(price)+" تومان";
+        return priceFormatter(price) + " تومان";
     }
     public String getFeaturedImageUrl() {
         return getImages().get(0).getSrc();
@@ -239,8 +240,8 @@ public class Product  {
     private String priceFormatter(String price) {
         String result = "";
         while (price.length() > 3) {
-            result = ","+price.substring(price.length()-3).concat(result);
-            price = price.substring(0, price.length()-3);
+            result = "," + price.substring(price.length() - 3).concat(result);
+            price = price.substring(0, price.length() - 3);
         }
         result = price.concat(result);
         return result;
@@ -251,5 +252,9 @@ public class Product  {
 
     public String getShortDescription() {
         return shortDescription;
+    }
+
+    public int getTotalSales() {
+        return totalSales;
     }
 }

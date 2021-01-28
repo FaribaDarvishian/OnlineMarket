@@ -1,7 +1,9 @@
 package com.example.digikala.data.repository;
 
+import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.digikala.data.model.Options;
@@ -10,6 +12,8 @@ import com.example.digikala.data.remote.NetworkParams;
 import com.example.digikala.data.remote.retrofit.RetrofitInstance;
 import com.example.digikala.data.remote.retrofit.WooCommerceAPI;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -98,7 +102,7 @@ public class ProductRepository {
     }
     public void setLatestProductsLiveData(){
         Log.d(TAG, "request for latest data");
-        mWooCommerceAPI.getProducts(NetworkParams.getProducts(10, 1, "date"))                .enqueue(new Callback<List<Product>>() {
+        mWooCommerceAPI.getProducts(NetworkParams.getProducts(100, 1, "date"))                .enqueue(new Callback<List<Product>>() {
                     @Override
                     public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                         mLatestProductsLiveData.setValue(response.body());
@@ -111,7 +115,7 @@ public class ProductRepository {
                 });
     }
     public void setPopularProductsLiveData() {
-        mWooCommerceAPI.getProducts(NetworkParams.getProducts(10, 1, "popularity"))
+        mWooCommerceAPI.getProducts(NetworkParams.getProducts(100, 1, "popularity"))
                 .enqueue(new Callback<List<Product>>() {
                     @Override
                     public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
@@ -125,7 +129,7 @@ public class ProductRepository {
                 });
     }
     public void setTopRatedProductsLiveData() {
-        mWooCommerceAPI.getProducts(NetworkParams.getProducts(10, 1, "rating"))
+        mWooCommerceAPI.getProducts(NetworkParams.getProducts(100, 1, "rating"))
                 .enqueue(new Callback<List<Product>>() {
                     @Override
                     public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
@@ -157,7 +161,7 @@ public class ProductRepository {
 
     public void setProductByOptionsLiveData(Options options) {
         Log.d(TAG, "setProductByOptionsLiveData: " + options);
-        mWooCommerceAPI.getProducts(NetworkParams.getProductsByOptions(options, 10, 1))
+        mWooCommerceAPI.getProducts(NetworkParams.getProductsByOptions(options, 100, 1))
                 .enqueue(new Callback<List<Product>>() {
                     @Override
                     public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
@@ -169,6 +173,19 @@ public class ProductRepository {
 
                     }
                 });
+    }
+    //This method sorts mProductByOptionsLiveData base on total sales
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void sortProductsByTotalSales() {
+        List<Product> sortedList = new ArrayList<>();
+        sortedList.addAll(mProductByOptionsLiveData.getValue());
+        sortedList.sort(new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return o1.getTotalSales() < o2.getTotalSales() ? 1 : -1;
+            }
+        });
+        mProductByOptionsLiveData.setValue(sortedList);
     }
 
 }
