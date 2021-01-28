@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
+
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,11 +30,12 @@ import com.example.digikala.viewmodel.ProductListViewModel;
 import com.example.digikala.view.fragment.ProductListFragment;
 import java.util.List;
 
-
+import static com.example.digikala.view.fragment.BottomSheetFilterDialogFragment.ARGS_FILTERED_OPTIONS;
 import static com.example.digikala.view.fragment.ProductDetailsFragment.ARG_PRODUCT_ID;
 import static com.example.digikala.view.fragment.ProductDetailsFragment.ARG_PRODUCT_NAME;
 
-public class ProductListFragment extends Fragment implements ProductAdapter.OnProductListener {    public static final String TAG = "Product List Fragment";
+public class ProductListFragment extends Fragment implements ProductAdapter.OnProductListener {
+    public static final String TAG = "Product List Fragment";
     public static final String ARGS_OPTIONS = "options";
     public static final String ARGS_TITLE = "name";
     private FragmentProductListBinding mBinding;
@@ -48,7 +49,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.OnPr
     }
 
     public static ProductListFragment newInstance() {
-    ProductListFragment fragment = new ProductListFragment();
+        ProductListFragment fragment = new ProductListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -57,6 +58,8 @@ public class ProductListFragment extends Fragment implements ProductAdapter.OnPr
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "initViewModel: " + getArguments().getSerializable(ARGS_OPTIONS).toString());
+        Log.d(TAG, "initViewModel: ");
         initViewModel();
         initAdapters();
         setObservers();
@@ -94,9 +97,13 @@ public class ProductListFragment extends Fragment implements ProductAdapter.OnPr
                 container,
                 false);
 
-        mBinding.setViewModel(mViewModel);
-        mBinding.productRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mBinding.productRecyclerView.setAdapter(mProductAdapter);
+        setInitView();
+        setListeners();
+
+        return mBinding.getRoot();
+    }
+
+    private void setListeners() {
         mBinding.orderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -113,8 +120,22 @@ public class ProductListFragment extends Fragment implements ProductAdapter.OnPr
 
             }
         });
+        mBinding.filterTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.setInitDataForFilters();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(ARGS_FILTERED_OPTIONS, mViewModel.getOptions());
+                Log.d(TAG, "onClick: filter" + mViewModel.getOptions().toString());
+                mNavController.navigate(R.id.action_productListFragment_to_bottomSheetFilterDialogFragment, bundle);
+            }
+        });
+    }
 
-        return mBinding.getRoot();
+    private void setInitView() {
+        mBinding.setViewModel(mViewModel);
+        mBinding.productRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mBinding.productRecyclerView.setAdapter(mProductAdapter);
     }
 
 
@@ -130,4 +151,5 @@ public class ProductListFragment extends Fragment implements ProductAdapter.OnPr
         bundle.putInt(ARG_PRODUCT_ID, product.getId());
         bundle.putString(ARG_PRODUCT_NAME, product.getName());
         mNavController.navigate(R.id.action_productListFragment_to_productDetailsFragment, bundle);
+    }
 }

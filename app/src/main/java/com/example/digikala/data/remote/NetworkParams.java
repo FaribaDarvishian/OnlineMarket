@@ -1,9 +1,10 @@
 package com.example.digikala.data.remote;
 
 import com.example.digikala.data.model.Options;
-
+import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
+
 public class NetworkParams {
     public static final String BASE_URL = "https://woocommerce.maktabsharif.ir/wp-json/wc/v3/";
     public static final String CONSUMER_KEY = "ck_f025265e3479f7bee8e93bffe5685517b93ec27d";
@@ -13,6 +14,8 @@ public class NetworkParams {
             CONSUMER_KEY +
             "&consumer_secret=" +
             CONSUMER_SECRET;
+
+    public static final String TAG = "request API";
 
     public static Map<String, String> BASE_OPTIONS = new HashMap<String, String>() {{
         put("consumer_key", CONSUMER_KEY);
@@ -39,7 +42,18 @@ public class NetworkParams {
         queryOptions.put("orderby", options.getOrderBy().name());
         queryOptions.put("category", options.getCategoryId());
         queryOptions.put("search", options.getSearchQuery());
-        queryOptions.put("order",options.getOrder());
+        queryOptions.put("order", options.getOrder());
+        queryOptions.put("tag", options.getFilteredTagId());
+
+        if (options.isOsSale())
+            queryOptions.put("on_sale", "true");
+        if (options.isInStock())
+            queryOptions.put("stock_status", "instock");
+        if (options.getMinPrice() != null)
+            queryOptions.put("min_price", options.getMinPrice());
+        if (options.getMaxPrice() != null)
+            queryOptions.put("max_price", options.getMaxPrice());
+        Log.d(TAG, "getProductsByOptions: " + options.toString());
         return queryOptions;
     }
 }

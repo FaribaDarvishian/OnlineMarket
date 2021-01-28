@@ -186,6 +186,14 @@ public class ProductRepository {
             }
         });
         mProductByOptionsLiveData.setValue(sortedList);
+        /*    //This method get product's tags in mProductByOptionsLiveData
+    public List<String> getProductListTags(){
+        List<String> productsTags=new ArrayList<>();
+        for (int i = 0; i <mProductByOptionsLiveData.getValue().size() ; i++) {
+        }
+    }*/
+
+
     }
 
 }

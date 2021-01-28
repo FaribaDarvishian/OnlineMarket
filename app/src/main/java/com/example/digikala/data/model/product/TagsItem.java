@@ -12,4 +12,11 @@ public class TagsItem{
 
 	@SerializedName("slug")
 	private String slug;
+	public String getName() {
+		return name;
+	}
+
+	public int getId() {
+		return id;
+	}
 }
