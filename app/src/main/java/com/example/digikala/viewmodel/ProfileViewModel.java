@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.digikala.data.model.customer.Customer;
 import com.example.digikala.data.repository.CustomerRepository;
+import com.example.digikala.utils.QueryPreferences;
 
 public class ProfileViewModel extends AndroidViewModel {
     private CustomerRepository mRepository;
@@ -32,7 +33,8 @@ public class ProfileViewModel extends AndroidViewModel {
     public boolean isCustomerReady() {
         return mCustomerLiveData.getValue() == null ? false : true;
     }
-
-
-
+    public void signOut() {
+        mRepository.signOut();
+        QueryPreferences.setCustomerEmail(getApplication(), null);
+    }
 }

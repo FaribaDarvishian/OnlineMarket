@@ -37,6 +37,8 @@ import com.example.digikala.viewmodel.ProductDetailsViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.digikala.utils.SnakeBar.showAddSnakeBar;
+
 public class ProductDetailsFragment extends Fragment {
     public static final String ARG_PRODUCT_ID = "ProductId";
     public static final String ARG_PRODUCT_NAME = "name";
@@ -117,22 +119,11 @@ public class ProductDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mViewModel.addTooCart();
-                showAddSnakeBar();
+                Snackbar snackbar = Snackbar.make(mBinding.getRoot(), "به سبد خرید اضافه شد.", BaseTransientBottomBar.LENGTH_LONG);
+                showAddSnakeBar(snackbar,getActivity());
             }
         });
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void showAddSnakeBar() {
-        Snackbar snackbar = Snackbar.make(mBinding.getRoot(), "به سبد خرید اضافه شد.", BaseTransientBottomBar.LENGTH_LONG);
-        snackbar.getView().setForegroundGravity(View.TEXT_ALIGNMENT_CENTER);
-        snackbar.getView().setMinimumHeight(300);
-        TextView snackBarTextView = (TextView) snackbar.getView().findViewById(R.id.snackbar_text);
-        snackBarTextView.setTextSize(50);
-        snackBarTextView.setTextColor(getResources().getColor(R.color.logo));
-        snackbar.show();
-    }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
