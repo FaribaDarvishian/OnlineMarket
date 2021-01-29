@@ -11,92 +11,96 @@
             type="com.example.digikala.viewmodel.CartViewModel" />
 
         <variable
-            name="product"
-            type="com.example.digikala.data.model.product.Product" />
-    </data>
+            name="cart"
+            type="com.example.digikala.data.room.entities.Cart" />
+        <!--        <variable
+                    name="product"
+                         type="com.hfad.onlinemarket.data.model.product.Product" />-->
+            </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_margin="5dp">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/cart_product_image_view"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_margin="3dp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLines="2"
-                        android:text="@{product.name}"
-                        android:textSize="16sp" />
+                    android:layout_gravity="center"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
-                        android:id="@+id/linearLayout7"
-                        android:layout_width="100dp"
-                        android:layout_height="31dp"
-                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/imageView_minus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:onClick="@{()->viewModel.addCartItem(product.id)}"
-                            android:src="@drawable/ic_add" />
+                            android:id="@+id/cart_product_image_view"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_margin="3dp" />
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/textView_product_count"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="@{viewModel.getCartItemQuantity(product.id)}"
-                            android:textSize="18sp" />
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/imageView_plus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:onClick="@{()->viewModel.removeCartItem(product.id)}"
-                            android:src="@drawable/ic_remove" />
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="2"
+                                android:text="@{viewModel.getProductName(cart)}"
+
+                                android:textSize="16sp" />
+
+                            <LinearLayout
+                                android:id="@+id/linearLayout7"
+                                android:layout_width="100dp"
+                                android:layout_height="31dp"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/imageView_minus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:onClick="@{()->viewModel.addCartItem(cart)}"
+                                    android:src="@drawable/ic_add" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/textView_product_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@{String.valueOf(cart.count)}"
+                                    android:textSize="18sp" />
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/imageView_plus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:onClick="@{()->viewModel.removeCartItem(cart)}"
+                                    android:src="@drawable/ic_remove" />
+                            </LinearLayout>
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{viewModel.calculateItemPrice(cart)}"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewModel.calculateItemPrice(product)}"
-                        android:textSize="20sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </layout>

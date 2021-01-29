@@ -34,8 +34,7 @@ public interface WooCommerceAPI {
     Call<List<Customer>> getCustomers(@QueryMap Map<String, String> options);
 
     @POST("orders")
-    Call<Order> postOrder(@QueryMap Map<String, String> options, @Body Order order);
-
+    Call<Order> postOrder(@Body Order order);
 
     @POST("customers")
     Call<Customer> postCustomers(@QueryMap Map<String, String> options, @Body Customer customer );

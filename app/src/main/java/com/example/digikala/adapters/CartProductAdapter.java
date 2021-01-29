@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.digikala.R;
 import com.example.digikala.data.model.product.Product;
+import com.example.digikala.data.room.entities.Cart;
 import com.example.digikala.databinding.ListItemCartBinding;
 import com.example.digikala.viewmodel.CartViewModel;
 import com.squareup.picasso.Picasso;
@@ -17,10 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.CartProductHolder> {
-    private List<Product> mItems;
+    private List<Cart> mItems;
     private CartViewModel mCartViewModel;
 
-    public List<Product> getItems() {
+    public List<Cart> getItems()  {
         return mItems;
     }
 
@@ -29,7 +30,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         mItems = new ArrayList<>();
     }
 
-    public void setItems(List<Product> items) {
+    public void setItems(List<Cart> items) {
         mItems = items;
     }
 
@@ -64,9 +65,10 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             mBinding.setViewModel(mCartViewModel);
         }
 
-        public void bindCartProduct(Product product) {
-            mBinding.setProduct(product);
-            Picasso.get().load(product.getFeaturedImageUrl()).placeholder(R.drawable.logo).into(mBinding.cartProductImageView);
+
+            public void bindCartProduct(Cart cart) {
+                mBinding.setCart(cart);
+//            Picasso.get().load(product.getFeaturedImageUrl()).placeholder(R.drawable.logo).into(mBinding.cartProductImageView);
         }
     }
 }

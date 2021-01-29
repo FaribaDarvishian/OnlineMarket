@@ -6,19 +6,17 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.digikala.data.model.customer.Customer;
+
 import com.example.digikala.data.model.order.Order;
 import com.example.digikala.data.model.product.Product;
-import com.example.digikala.data.remote.NetworkParams;
 import com.example.digikala.data.remote.retrofit.RetrofitInstance;
 import com.example.digikala.data.remote.retrofit.WooCommerceAPI;
 import com.example.digikala.data.room.CartRoomDataBase;
 import com.example.digikala.data.room.dao.CartDAO;
 import com.example.digikala.data.room.entities.Cart;
-import com.example.digikala.view.fragment.ProfileFragment;
 
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,9 +36,7 @@ public class CartRepository {
             sInstance = new CartRepository(context);
         return sInstance;
     }
-    public LiveData<List<Product>> getProductLiveData() {
-        return mProductLiveData;
-    }
+
 
     public CartRepository(Context context) {
         CartRoomDataBase cartRoomDataBase = CartRoomDataBase.getDataBase(context);
@@ -49,27 +45,8 @@ public class CartRepository {
         mWooCommerceAPI = RetrofitInstance.getInstance().create(WooCommerceAPI.class);
     }
 
-    public void setProductLiveData(List<Cart> carts) {
-        List<Product> list = new ArrayList<>();
-        mProductLiveData.setValue(list);
-        for (int i = 0; i < carts.size(); i++) {
-            mWooCommerceAPI.getProductById(carts.get(i).getProductid())
-                    .enqueue(new Callback<Product>() {
-                        @Override
-                        public void onResponse(Call<Product> call, Response<Product> response) {
-                            if (response.isSuccessful()) {
-                                list.add(response.body());
-                                Log.d(TAG, "onResponse: product name fetched from cart " + response.body().getName());
-                                mProductLiveData.setValue(list);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Product> call, Throwable t) {
-
-                        }
-                    });
-        }
+    public Call<Product> setCartProducts(Integer productId) {
+        return mWooCommerceAPI.getProductById(productId);
     }
 
 
@@ -96,25 +73,8 @@ public class CartRepository {
     public void deleteAllCarts() {
         CartRoomDataBase.dataBaseWriteExecutor.execute(() -> mCartDAO.deleteAllCarts());
     }
-    public boolean postOrder(Order order) {
-        final boolean[] result = {false};
-        mWooCommerceAPI.postOrder(new HashMap<>(), order)
-                .enqueue(new Callback<Order>() {
-                    @Override
-                    public void onResponse(Call<Order> call, Response<Order> response) {
-                        Log.d(TAG, "onResponse: order" + response.isSuccessful());
-                        if (response.isSuccessful()) {
-                            result[0] = true;
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Order> call, Throwable t) {
-
-                    }
-                });
-        Log.d(TAG, "postOrder: boolean" + result[0]);
-        return result[0];
+    public Call<Order> postOrder(Order order) {
+        return mWooCommerceAPI.postOrder(order);
     }
 
 }

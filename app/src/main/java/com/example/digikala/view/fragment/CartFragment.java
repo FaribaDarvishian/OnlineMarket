@@ -59,18 +59,24 @@ public class CartFragment extends Fragment {
             @Override
             public void onChanged(List<Cart> carts) {
                 mViewModel.setCartsSubject(carts);
+                mViewModel.setProductsLiveData(carts);
                 Log.d(CartRepository.TAG, "onChanged: " + carts.size());
+                Log.d(CartRepository.TAG, "onChanged: cardProducts size:" + mViewModel.getCartProducts().size());
+                Log.d(CartRepository.TAG, "onChanged: cardSubject size:" + mViewModel.getCartsSubject().size());
                 mBinding.setViewModel(mViewModel);
-                mViewModel.setProductsList(carts);
+                mAdapter.setItems(carts);
+                mAdapter.notifyDataSetChanged();
             }
         });
-        mViewModel.getProductLiveData().observe(this, new Observer<List<Product>>() {
+        mViewModel.getProductLiveData().observe(this, new Observer<Product>() {
             @Override
-            public void onChanged(List<Product> products) {
-                Log.d(CartRepository.TAG, "onChanged: product list size " + products.size());
-                mBinding.setViewModel(mViewModel);
-                mAdapter.setItems(products);
-                mAdapter.notifyDataSetChanged();
+            public void onChanged(Product product) {
+                Log.d(CartRepository.TAG, "onChanged productLiveData: cardProducts size:" + mViewModel.getCartProducts().size());
+                Log.d(CartRepository.TAG, "onChanged productLiveData: cardSubject size:" + mViewModel.getCartsSubject().size());
+                if(mViewModel.addProductToCardProductsList(product)){
+                    mBinding.setViewModel(mViewModel);
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
 
