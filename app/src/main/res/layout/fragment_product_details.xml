@@ -9,7 +9,7 @@
 
         <variable
             name="productDetailsViewModel"
-            type="com.example.digikala.viewmodel.ProductDetailsViewModel" />
+            type="com.example.OnlineMarket.viewmodel.ProductDetailsViewModel" />
 
     </data>
 
@@ -43,7 +43,7 @@
                 android:id="@+id/constraint_scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:context=".view.fragment.ProductDetailsFragment">
+                tools:context="com.example.OnlineMarket.view.fragment.ProductDetailsFragment">
 
 
                 <androidx.viewpager2.widget.ViewPager2

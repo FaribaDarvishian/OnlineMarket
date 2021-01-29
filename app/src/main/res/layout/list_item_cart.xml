@@ -8,11 +8,11 @@
 
         <variable
             name="viewModel"
-            type="com.example.digikala.viewmodel.CartViewModel" />
+            type="com.example.OnlineMarket.viewmodel.CartViewModel" />
 
         <variable
             name="cart"
-            type="com.example.digikala.data.room.entities.Cart" />
+            type="com.example.OnlineMarket.data.room.entities.Cart" />
         <!--        <variable
                     name="product"
                          type="com.hfad.onlinemarket.data.model.product.Product" />-->

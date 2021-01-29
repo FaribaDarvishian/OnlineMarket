@@ -9,7 +9,7 @@
 
         <variable
             name="profileViewModel"
-            type="com.example.digikala.viewmodel.ProfileViewModel" />
+            type="com.example.OnlineMarket.viewmodel.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:background="@color/gray_background"
         android:padding="5dp"
-        tools:context=".view.fragment.ProfileFragment">
+        tools:context="com.example.OnlineMarket.view.fragment.ProfileFragment">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

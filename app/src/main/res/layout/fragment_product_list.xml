@@ -6,14 +6,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.digikala.viewmodel.ProductListViewModel" />
+            type="com.example.OnlineMarket.viewmodel.ProductListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray_background"
-        tools:context=".view.fragment.ProductListFragment">
+        tools:context="com.example.OnlineMarket.view.fragment.ProductListFragment">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/shapeableImageView2"
             android:layout_width="wrap_content"

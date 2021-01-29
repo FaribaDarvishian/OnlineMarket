@@ -7,11 +7,11 @@
     <data>
         <variable
             name="category"
-            type="com.example.digikala.data.model.product.Category" />
+            type="com.example.OnlineMarket.data.model.product.Category" />
 
         <variable
             name="listener"
-            type="com.example.digikala.adapters.SubCategoryAdapter.OnCategoryListener" />
+            type="com.example.OnlineMarket.adapters.SubCategoryAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

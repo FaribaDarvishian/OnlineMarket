@@ -9,18 +9,18 @@
 
         <variable
             name="viewModel"
-            type="com.example.digikala.viewmodel.SettingViewModel" />
+            type="com.example.OnlineMarket.viewmodel.SettingViewModel" />
 
         <variable
             name="settingFragment"
-            type="com.example.digikala.view.fragment.SettingsFragment" />
+            type="com.example.OnlineMarket.view.fragment.SettingsFragment" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.SettingsFragment">
+        tools:context="com.example.OnlineMarket.view.fragment.SettingsFragment">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/materialTextView11"

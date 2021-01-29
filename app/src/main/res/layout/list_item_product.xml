@@ -9,10 +9,10 @@
 
         <variable
             name="product"
-            type="com.example.digikala.data.model.product.Product" />
+            type="com.example.OnlineMarket.data.model.product.Product" />
         <variable
             name="listener"
-            type="com.example.digikala.adapters.ProductAdapter.OnProductListener" />
+            type="com.example.OnlineMarket.adapters.ProductAdapter" />
 
     </data>
 

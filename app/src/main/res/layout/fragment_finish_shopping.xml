@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.example.digikala.R" />
+        <import type="com.example.OnlineMarket.R" />
 
         <import type="android.view.View" />
 
         <variable
             name="viewModel"
-            type="com.example.digikala.viewmodel.FinishShoppingViewModel" />
+            type="com.example.OnlineMarket.viewmodel.FinishShoppingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray_background"
-        tools:context=".view.fragment.FinishShoppingFragment">
+        tools:context="com.example.OnlineMarket.view.fragment.FinishShoppingFragment">
 
         <ProgressBar
             android:layout_width="match_parent"

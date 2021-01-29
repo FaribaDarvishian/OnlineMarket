@@ -6,11 +6,11 @@
 
         <variable
             name="product"
-            type="com.example.digikala.data.model.product.Product" />
+            type="com.example.OnlineMarket.data.model.product.Product" />
 
         <variable
             name="listener"
-            type="com.example.digikala.adapters.SearchViewAdapter.OnProductListener" />
+            type="com.example.OnlineMarket.adapters.SearchViewAdapter" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

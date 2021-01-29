@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.digikala.viewmodel.MainPageViewModel" />
+            type="com.example.OnlineMarket.viewmodel.MainPageViewModel" />
 
     </data>
 
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="2dp"
-            tools:context=".view.fragment.MainPageFragment">
+            tools:context="com.example.OnlineMarket.view.fragment.MainPageFragment">
 
             <ProgressBar
                 android:id="@+id/search_progress_bar"

@@ -9,14 +9,14 @@
 
         <variable
             name="viewModel"
-            type="com.example.digikala.viewmodel.CartViewModel" />
+            type="com.example.OnlineMarket.viewmodel.CartViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray_background"
-        tools:context=".view.fragment.CartFragment">
+        tools:context="com.example.OnlineMarket.view.fragment.CartFragment">
 
 
         <com.google.android.material.textview.MaterialTextView
