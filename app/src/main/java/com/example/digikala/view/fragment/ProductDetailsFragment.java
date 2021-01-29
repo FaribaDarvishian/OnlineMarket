@@ -60,8 +60,7 @@ public class ProductDetailsFragment extends Fragment {
     }
 
     private void setObservers() {
-        mViewModel.getSelectedProduct().observe(this, new Observer<Product>() {
-            @Override
+        mViewModel.getSelectedProductLiveData().observe(this, new Observer<Product>() {            @Override
             public void onChanged(Product product) {
                 mImageSliderAdapter.setSliderItems(product.getImages());
                 mImageSliderAdapter.notifyDataSetChanged();
@@ -87,7 +86,7 @@ public class ProductDetailsFragment extends Fragment {
     private void initData() {
         int productID = getArguments().getInt(ARG_PRODUCT_ID);
         mViewModel = new ViewModelProvider(this).get(ProductDetailsViewModel.class);
-        mViewModel.setSelectedProduct(productID);
+        mViewModel.setSelectedProductLiveData(productID);
 //        mProduct = mViewModel.getSelectedProduct();
     }
 
@@ -107,6 +106,7 @@ public class ProductDetailsFragment extends Fragment {
         return mBinding.getRoot();
     }
     private void initUI() {
+        mBinding.setProductDetailsViewModel(mViewModel);
         mBinding.imageViewPager.setAdapter(mImageSliderAdapter);
 
         //Add strike for regular price textView
@@ -119,8 +119,8 @@ public class ProductDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mViewModel.addTooCart();
-                Snackbar snackbar = Snackbar.make(mBinding.getRoot(), "به سبد خرید اضافه شد.", BaseTransientBottomBar.LENGTH_LONG);
-                showAddSnakeBar(snackbar,getActivity());
+                Snackbar snackbar = Snackbar.make(mBinding.getRoot(), R.string.add_to_cart_done, BaseTransientBottomBar.LENGTH_LONG);
+                showAddSnakeBar(snackbar, getActivity());
             }
         });
     }

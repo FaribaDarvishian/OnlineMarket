@@ -1,5 +1,6 @@
 package com.example.digikala.data.remote.retrofit;
 import com.example.digikala.data.model.customer.Customer;
+import com.example.digikala.data.model.order.Order;
 import com.example.digikala.data.model.product.Category;
 import com.example.digikala.data.model.product.Product;
 
@@ -9,6 +10,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
@@ -23,13 +25,17 @@ public interface WooCommerceAPI {
     Call<List<Product>> getPopularProduct();
 
     @GET("products/{productId}")
-    Call<Product> getProductById(@Path("productId")int productId,@QueryMap Map<String, String> options);
+    Call<Product> getProductById(@Path("productId") int productId);
 
     @GET("products/categories?per_page=100")
     Call<List<Category>> getCategories(@QueryMap Map<String, String> options);
 
     @GET("customers")
     Call<List<Customer>> getCustomers(@QueryMap Map<String, String> options);
+
+    @POST("orders")
+    Call<Order> postOrder(@QueryMap Map<String, String> options, @Body Order order);
+
 
     @POST("customers")
     Call<Customer> postCustomers(@QueryMap Map<String, String> options, @Body Customer customer );

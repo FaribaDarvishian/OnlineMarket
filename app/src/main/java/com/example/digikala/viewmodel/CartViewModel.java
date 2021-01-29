@@ -7,11 +7,15 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.digikala.data.model.order.LineItemsItem;
+import com.example.digikala.data.model.order.Order;
 import com.example.digikala.data.model.product.Product;
 import com.example.digikala.data.repository.CartRepository;
+import com.example.digikala.data.repository.CustomerRepository;
 import com.example.digikala.data.repository.ProductRepository;
 import com.example.digikala.data.room.entities.Cart;
 import com.example.digikala.utils.PriceFormatter;
+import com.example.digikala.utils.QueryPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +23,7 @@ import java.util.List;
 public class CartViewModel extends AndroidViewModel {
     private CartRepository mCartRepository;
     private ProductRepository mProductRepository;
+    private CustomerRepository mCustomerRepository;
     private List<Cart> mCartsSubject = new ArrayList<>();
     private LiveData<List<Cart>> mCartsLiveData;
 
@@ -27,6 +32,7 @@ public class CartViewModel extends AndroidViewModel {
         super(application);
         mCartRepository = CartRepository.getInstance(application);
         mProductRepository = ProductRepository.getInstance();
+        mCustomerRepository = CustomerRepository.getCustomer();
         mCartsLiveData = fetchCartsLiveData();
     }
 
@@ -108,5 +114,22 @@ public class CartViewModel extends AndroidViewModel {
                 return cart;
         }
         return null;
+    }
+    public boolean postOrder() {
+        List<LineItemsItem> itemsList = new ArrayList<>();
+        for (int i = 0; i < mCartsSubject.size(); i++) {
+            LineItemsItem lineItemsItem = new LineItemsItem();
+            lineItemsItem.setProductId(mCartsSubject.get(i).getProductid());
+            lineItemsItem.setQuantity(mCartsSubject.get(i).getCount());
+            itemsList.add(lineItemsItem);
+        }
+        Order order = new Order();
+        order.setCustomerId(QueryPreferences.getCustomerId(getApplication()));
+        order.setLineItems(itemsList);
+        if (mCartRepository.postOrder(order)) {
+            mCartRepository.deleteAllCarts();
+            return true;
+        }
+        return false;
     }
 }

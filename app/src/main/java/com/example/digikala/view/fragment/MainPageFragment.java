@@ -2,8 +2,6 @@ package com.example.digikala.view.fragment;
 
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,9 +23,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.viewpager2.widget.CompositePageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.digikala.R;
 import com.example.digikala.adapters.ImageSliderAdapter;
@@ -98,6 +93,7 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
                 Log.d(TAG, "set latest Observer " + products.get(products.size() - 1).getName());
                 mLatestAdapter.setItems(products);
                 mLatestAdapter.notifyDataSetChanged();
+                setBinding();
             }
         });
         mViewModel.getPopularProducts().observe(this, new Observer<List<Product>>() {
@@ -106,6 +102,7 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
                 Log.d(TAG, "set popular Observer " + products.get(products.size() - 1).getName());
                 mPopularAdapter.setItems(products);
                 mPopularAdapter.notifyDataSetChanged();
+                setBinding();
             }
         });
         mViewModel.getTopRatedProducts().observe(this, new Observer<List<Product>>() {
@@ -114,6 +111,7 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
                 Log.d(TAG, "set top rated Observer " + products.get(products.size() - 1).getName());
                 mTopRatedAdapter.setItems(products);
                 mTopRatedAdapter.notifyDataSetChanged();
+                setBinding();
             }
         });
         mViewModel.getSearchedProducts().observe(this, new Observer<List<Product>>() {
@@ -131,10 +129,13 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
                 mImageSliderAdapter.setSliderItems(mViewModel.getOnSaleImageItems(products));
                 mImageSliderAdapter.notifyDataSetChanged();
                 SliderImageDecorator.SliderImageDecorator(mBinding.onSaleImageViewPager);
+                setBinding();
             }
         });
     }
-
+    private void setBinding() {
+        mBinding.setViewModel(mViewModel);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -145,13 +146,14 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
                 container,
                 false);
 
-        setRecyclerViewsAdapters();
+        initUI();
         SliderImageDecorator.SliderImageDecorator(mBinding.onSaleImageViewPager);
         Log.d(TAG, "onCreateView: Adapters:" + mLatestAdapter == null ? "null" : "full OK");
         return mBinding.getRoot();
     }
 
-    private void setRecyclerViewsAdapters() {
+    private void initUI() {
+        mBinding.setViewModel(mViewModel);
         mBinding.newProductsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, true));
         mBinding.popularRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, true));
         mBinding.topRatedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, true));

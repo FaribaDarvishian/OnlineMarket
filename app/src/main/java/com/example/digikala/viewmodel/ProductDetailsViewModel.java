@@ -8,8 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
+
 
 
 import com.example.digikala.data.model.product.Product;
@@ -24,12 +23,20 @@ import java.util.List;
 public class ProductDetailsViewModel extends AndroidViewModel {
     private ProductRepository mProductRepository;
     private CartRepository mCartRepository;
-    private LiveData<Product> mSelectedProduct;
+    private Product mSelectedProduct = new Product();
     private List<Cart> mCartsSubject = new ArrayList<>();
     private LiveData<List<Cart>> mCartsLiveData;
 
     public LiveData<List<Cart>> getCartsLiveData() {
         return mCartsLiveData;
+    }
+
+    public Product getSelectedProduct() {
+        return mSelectedProduct;
+    }
+
+    public void setSelectedProduct(Product selectedProduct) {
+        mSelectedProduct = selectedProduct;
     }
 
     public List<Cart> getCartsSubject() {
@@ -43,8 +50,6 @@ public class ProductDetailsViewModel extends AndroidViewModel {
     public ProductDetailsViewModel(@NonNull Application application) {
         super(application);
         mProductRepository = ProductRepository.getInstance();
-        mSelectedProduct = new MutableLiveData<>();
-        mSelectedProduct = mProductRepository.getSelectedProductLiveData();
         mCartRepository = CartRepository.getInstance(application);
         mCartsLiveData = fetchCartsLiveData();
     }
@@ -54,12 +59,11 @@ public class ProductDetailsViewModel extends AndroidViewModel {
     }
 
 
-    public void setSelectedProduct(int productId) {
+    public void setSelectedProductLiveData(int productId) {
         mProductRepository.setSelectedProductLiveData(productId);
     }
 
-    public LiveData<Product> getSelectedProduct() {
-        mSelectedProduct = mProductRepository.getSelectedProductLiveData();
+    public LiveData<Product> getSelectedProductLiveData() {
         return mProductRepository.getSelectedProductLiveData();
     }
 
@@ -68,19 +72,21 @@ public class ProductDetailsViewModel extends AndroidViewModel {
     }
 
     public int getNumberOfImages() {
-        return mSelectedProduct.getValue().getImages().size();
+        return mSelectedProduct.getImages().size();
     }
 
     public String getFormattedDescription() {
+        if (mSelectedProduct.getName() == null)
+            return null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return Html.fromHtml(mSelectedProduct.getValue().getDescription(), Html.FROM_HTML_MODE_COMPACT).toString();
+            return Html.fromHtml(mSelectedProduct.getDescription(), Html.FROM_HTML_MODE_COMPACT).toString();
         } else {
-            return Html.fromHtml(mSelectedProduct.getValue().getDescription()).toString();
+            return Html.fromHtml(mSelectedProduct.getDescription()).toString();
         }
     }
 
     public void addTooCart() {
-        Cart cart = new Cart(mSelectedProduct.getValue().getId(), 1);
+        Cart cart = new Cart(mSelectedProduct.getId(), 1);
         if (mCartsSubject.contains(cart)) {
             for (Cart eachCart : mCartsSubject
             ) {
@@ -96,5 +102,9 @@ public class ProductDetailsViewModel extends AndroidViewModel {
 //        Log.d(CartRepository.TAG, "addTooCart: number of carts: " + mCartRepository.getCartLiveData().getValue().size());
 //        Log.d(CartRepository.TAG, "addTooCart: number of carts: " + mCartRepository.getCartLiveData(mSelectedProduct.getValue().getId()).getValue().toString());
 
+    }
+
+    public boolean isLoading() {
+        return mSelectedProduct.getId() == 0 ? true : false;
     }
 }

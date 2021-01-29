@@ -25,6 +25,7 @@ import com.example.digikala.R;
 import com.example.digikala.adapters.ProductAdapter;
 import com.example.digikala.data.model.Options;
 import com.example.digikala.data.model.product.Product;
+import com.example.digikala.databinding.FragmentProductDetailsBinding;
 import com.example.digikala.databinding.FragmentProductListBinding;
 import com.example.digikala.viewmodel.ProductListViewModel;
 import com.example.digikala.view.fragment.ProductListFragment;
@@ -99,10 +100,7 @@ public class ProductListFragment extends Fragment implements ProductAdapter.OnPr
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater,
-                R.layout.fragment_product_list,
-                container,
-                false);
+         mBinding = FragmentProductListBinding.inflate(inflater);
 
         setInitView();
         setListeners();
