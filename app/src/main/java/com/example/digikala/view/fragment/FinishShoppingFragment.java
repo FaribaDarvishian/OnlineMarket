@@ -53,18 +53,15 @@ public class FinishShoppingFragment extends Fragment {
     }
 
     private void setObservers() {
-        mViewModel.getAddresses().observe(this, new Observer<List<MyAddress>>() {
-            @Override
-            public void onChanged(List<MyAddress> myAddresses) {
-                Log.d(TAG, "onChanged: " + myAddresses.size());
-                mAddressAdapter.setItems(myAddresses);
-                mAddressAdapter.notifyDataSetChanged();
-            }
+        mViewModel.getAddresses().observe(this, myAddresses -> {
+            Log.d(TAG, "onChanged: " + myAddresses.size());
+            mAddressAdapter.setItems(myAddresses);
+            mAddressAdapter.notifyDataSetChanged();
         });
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_finish_shopping, container, false);
         mBinding.addressRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -76,12 +73,8 @@ public class FinishShoppingFragment extends Fragment {
     }
 
     private void setListeners() {
-        mBinding.addAddressButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mNavController.navigate(R.id.action_finishShoppingFragment_to_addAddressMapsFragment);
-            }
-        });
+        mBinding.addAddressButton.setOnClickListener(v -> mNavController
+                .navigate(R.id.action_finishShoppingFragment_to_addAddressMapsFragment));
     }
 
     @Override

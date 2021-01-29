@@ -105,11 +105,11 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.digikala.view.fragment.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="تنظیمات" />
     <fragment
         android:id="@+id/finishShoppingFragment"
         android:name="com.example.digikala.view.fragment.FinishShoppingFragment"
-        android:label="FinishShoppingFragment" >
+        android:label="تکمیل خرید" >
         <action
             android:id="@+id/action_finishShoppingFragment_to_addAddressMapsFragment"
             app:destination="@id/addAddressMapsFragment" />
@@ -117,6 +117,6 @@
     <fragment
         android:id="@+id/addAddressMapsFragment"
         android:name="com.example.digikala.view.fragment.AddAddressMapsFragment"
-        android:label="fragment_add_address_maps"
+        android:label="افزودن آدرس"
         tools:layout="@layout/fragment_add_address_maps" />
 </navigation>

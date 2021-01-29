@@ -24,7 +24,7 @@ import retrofit2.Response;
 
 public class CartViewModel extends AndroidViewModel {
     public static final String TAG = "Cart viewModel";
-    private CartRepository mCartRepository;
+    private final CartRepository mCartRepository;
     private List<Product> mCartProducts = new ArrayList<>();
     private List<Cart> mCartsSubject = new ArrayList<>();
     private LiveData<List<Cart>> mCartsLiveData;
@@ -175,8 +175,9 @@ public class CartViewModel extends AndroidViewModel {
         return mCartsSubject.size() > 0 ? mCartsSubject.size() + " مورد" : "سبد خرید خالی است";
     }
 
-    public boolean isCartProductsEmpty() {
-        return mCartsSubject.size() > 0 ? false : true;
+    public boolean isCartProductsEmpty()
+    {
+        return mCartsSubject.size() <= 0;
     }
 
     public String getProductName(Cart cart) {
@@ -187,9 +188,7 @@ public class CartViewModel extends AndroidViewModel {
     public boolean addProductToCardProductsList(Product product) {
         if (!mCartProducts.contains(product))
             mCartProducts.add(product);
-        if (mCartProducts.size() == mCartsSubject.size())
-            return true;
-        return false;
+        return mCartProducts.size() == mCartsSubject.size();
     }
 
     public String getProductFeatureImage(Cart cart) {
