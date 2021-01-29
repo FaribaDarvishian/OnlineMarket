@@ -32,6 +32,7 @@ import com.example.digikala.viewmodel.CartViewModel;
 import java.util.List;
 
 import static com.example.digikala.utils.SnakeBar.showAddSnakeBar;
+import static com.example.digikala.view.fragment.FinishShoppingFragment.ARG_TOTAL_PRICE;
 
 public class CartFragment extends Fragment {
     private FragmentCartBinding mBinding;
@@ -69,6 +70,7 @@ public class CartFragment extends Fragment {
                 Log.d(CartRepository.TAG, "onChanged productLiveData: cardProducts size:" + mViewModel.getCartProducts().size());
                 Log.d(CartRepository.TAG, "onChanged productLiveData: cardSubject size:" + mViewModel.getCartsSubject().size());
                 if (mViewModel.addProductToCardProductsList(product)) {
+                    mViewModel.setReadyToContinue(true);
                     mBinding.setViewModel(mViewModel);
                     mAdapter.notifyDataSetChanged();
                 }
@@ -101,16 +103,15 @@ public class CartFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (QueryPreferences.getCustomerEmail(getContext()) == null) {
-                    Snackbar snackbar = Snackbar.make(mBinding.getRoot(), "جهت خرید لطفا وارد شوید",
+                    Snackbar snackbar = Snackbar.make(mBinding.getRoot(), R.string.login_before_perchase,
                             BaseTransientBottomBar.LENGTH_LONG);
                     showAddSnakeBar(snackbar, getActivity());
                     mNavController.navigate(R.id.action_cartFragment_to_profileFragment);
                 } else {
                     mNavController.navigate(R.id.action_cartFragment_to_finishShoppingFragment);
-                    /*if (mViewModel.postOrder())
-                        showAddSnakeBar(Snackbar.make(mBinding.getRoot(), "سفارش شما ثبت شد",
-
-                              BaseTransientBottomBar.LENGTH_LONG), getActivity());*/
+                    Bundle bundle=new Bundle();
+                    bundle.putLong(ARG_TOTAL_PRICE,mViewModel.calculateTotalPrice());
+                    mNavController.navigate(R.id.action_cartFragment_to_finishShoppingFragment,bundle);
                 }
             }
         });

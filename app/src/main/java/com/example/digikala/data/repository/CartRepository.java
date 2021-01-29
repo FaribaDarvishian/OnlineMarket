@@ -1,14 +1,16 @@
 package com.example.digikala.data.repository;
 
 import android.content.Context;
+import android.util.Log;
 
 
 import androidx.lifecycle.LiveData;
 
 
-
+import com.example.digikala.data.model.coupon.Coupon;
 import com.example.digikala.data.model.order.Order;
 import com.example.digikala.data.model.product.Product;
+import com.example.digikala.data.remote.NetworkParams;
 import com.example.digikala.data.remote.retrofit.RetrofitInstance;
 import com.example.digikala.data.remote.retrofit.WooCommerceAPI;
 import com.example.digikala.data.room.RoomDataBase;
@@ -74,4 +76,8 @@ public class CartRepository {
         return mWooCommerceAPI.postOrder(order);
     }
 
+    public Call<List<Coupon>> setCoupons(){
+        Log.d(TAG, "setCoupons: ");
+        return mWooCommerceAPI.getCoupons(NetworkParams.getCoupons(100));
+    }
 }

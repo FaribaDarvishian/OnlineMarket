@@ -3,7 +3,7 @@ import com.example.digikala.data.model.customer.Customer;
 import com.example.digikala.data.model.order.Order;
 import com.example.digikala.data.model.product.Category;
 import com.example.digikala.data.model.product.Product;
-
+import com.example.digikala.data.model.coupon.Coupon;
 import java.util.List;
 import java.util.Map;
 
@@ -38,4 +38,6 @@ public interface WooCommerceAPI {
 
     @POST("customers")
     Call<Customer> postCustomers(@QueryMap Map<String, String> options, @Body Customer customer );
+    @GET("coupons")
+    Call<List<Coupon>> getCoupons(@QueryMap Map<String, String> options);
 }
