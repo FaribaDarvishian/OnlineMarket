@@ -2,25 +2,22 @@ package com.example.digikala.view.fragment;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager2.widget.CompositePageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -34,7 +31,6 @@ import com.example.digikala.databinding.FragmentProductDetailsBinding;
 import com.example.digikala.utils.SliderImageDecorator;
 import com.example.digikala.viewmodel.ProductDetailsViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.digikala.utils.SnakeBar.showAddSnakeBar;
@@ -45,6 +41,7 @@ public class ProductDetailsFragment extends Fragment {
     private FragmentProductDetailsBinding mBinding;
     private ProductDetailsViewModel mViewModel;
     private ImageSliderAdapter mImageSliderAdapter;
+    private NavController mNavController;
 
     public ProductDetailsFragment() {
         // Required empty public constructor
@@ -75,6 +72,7 @@ public class ProductDetailsFragment extends Fragment {
                 if (carts.size() > 0)
                     Log.d(CartRepository.TAG, "addTooCart: number of carts: " + carts.get(0).toString());
                 mViewModel.setCartsSubject(carts);
+                updateUI();
             }
         });
     }
@@ -118,9 +116,12 @@ public class ProductDetailsFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                mViewModel.addTooCart();
-                Snackbar snackbar = Snackbar.make(mBinding.getRoot(), R.string.add_to_cart_done, BaseTransientBottomBar.LENGTH_LONG);
-                showAddSnakeBar(snackbar, getActivity());
+                if (!mViewModel.isProductInCart()) {
+                    mViewModel.addTooCart();
+                    Snackbar snackbar = Snackbar.make(mBinding.getRoot(), R.string.add_to_cart_done, BaseTransientBottomBar.LENGTH_LONG);
+                    showAddSnakeBar(snackbar, getActivity());
+                } else
+                    mNavController.navigate(R.id.action_productDetailsFragment_to_cartFragment);
             }
         });
     }
@@ -128,6 +129,7 @@ public class ProductDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mNavController = Navigation.findNavController(view);
 
     }
 

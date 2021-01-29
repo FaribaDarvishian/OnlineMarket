@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 
-
+import com.example.digikala.R;
 import com.example.digikala.data.model.product.Product;
 import com.example.digikala.data.repository.ProductRepository;
 import com.example.digikala.data.repository.CartRepository;
@@ -87,22 +87,23 @@ public class ProductDetailsViewModel extends AndroidViewModel {
 
     public void addTooCart() {
         Cart cart = new Cart(mSelectedProduct.getId(), 1);
-        if (mCartsSubject.contains(cart)) {
-            for (Cart eachCart : mCartsSubject
-            ) {
-                if (eachCart.equals(cart)) {
-                    int count = eachCart.getCount() + 1;
-                    eachCart.setCount(count);
-                    Log.d(CartRepository.TAG, "addTooCart: " + count);
-                    mCartRepository.updateCart(eachCart);
-                }
-            }
-        } else
-            mCartRepository.insertCart(cart);
+        mCartRepository.insertCart(cart);
 //        Log.d(CartRepository.TAG, "addTooCart: number of carts: " + mCartRepository.getCartLiveData().getValue().size());
 //        Log.d(CartRepository.TAG, "addTooCart: number of carts: " + mCartRepository.getCartLiveData(mSelectedProduct.getValue().getId()).getValue().toString());
 
     }
+
+    public boolean isProductInCart() {
+        Cart cart = new Cart(mSelectedProduct.getId(), 1);
+        return mCartsSubject.contains(cart);
+    }
+
+    public String addToCartButtonTitle() {
+        if (isProductInCart())
+            return "در سبد خرید موجود است";
+        return getApplication().getResources().getString(R.string.add_to_cart);
+    }
+
 
     public boolean isLoading() {
         return mSelectedProduct.getId() == 0 ? true : false;

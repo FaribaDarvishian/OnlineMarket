@@ -61,14 +61,17 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
 
         public CartProductHolder(@NonNull ListItemCartBinding listItemCartBinding) {
             super(listItemCartBinding.getRoot());
-            mBinding=listItemCartBinding;
+            mBinding = listItemCartBinding;
             mBinding.setViewModel(mCartViewModel);
         }
 
 
             public void bindCartProduct(Cart cart) {
                 mBinding.setCart(cart);
-//            Picasso.get().load(product.getFeaturedImageUrl()).placeholder(R.drawable.logo).into(mBinding.cartProductImageView);
+                Picasso.get().load(
+                        mCartViewModel.getProductFeatureImage(cart))
+                        .placeholder(R.drawable.logo).
+                        into(mBinding.cartProductImageView);
         }
     }
 }

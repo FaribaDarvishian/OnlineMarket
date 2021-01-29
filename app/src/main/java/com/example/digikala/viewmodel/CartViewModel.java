@@ -12,7 +12,6 @@ import com.example.digikala.data.model.order.LineItemsItem;
 import com.example.digikala.data.model.order.Order;
 import com.example.digikala.data.model.product.Product;
 import com.example.digikala.data.repository.CartRepository;
-import com.example.digikala.data.repository.ProductRepository;
 import com.example.digikala.data.room.entities.Cart;
 import com.example.digikala.utils.PriceFormatter;
 import com.example.digikala.utils.QueryPreferences;
@@ -26,22 +25,19 @@ import retrofit2.Response;
 public class CartViewModel extends AndroidViewModel {
     public static final String TAG = "Cart viewModel";
     private CartRepository mCartRepository;
-    private ProductRepository mProductRepository;
     private List<Product> mCartProducts = new ArrayList<>();
     private List<Cart> mCartsSubject = new ArrayList<>();
     private LiveData<List<Cart>> mCartsLiveData;
     private MutableLiveData<Product> mProductLiveData;
-//    private MutableLiveData<List<Product>> mCartProductsLiveData;
+
 
 
     public CartViewModel(@NonNull Application application) {
         super(application);
         mCartRepository = CartRepository.getInstance(application);
-        mProductRepository = ProductRepository.getInstance();
-//        mCartProductsLiveData = new MutableLiveData<>();
         mCartsLiveData = fetchCartsLiveData();
         mProductLiveData = new MutableLiveData<>();
-        mCartProducts = new ArrayList<>();
+
     }
 
 
@@ -75,32 +71,7 @@ public class CartViewModel extends AndroidViewModel {
                     });
         }
     }
-//    public LiveData<List<Product>> getProductLiveData() {
-//        return mCartProductsLiveData;
-//    }
 
-/*    public void setProductsList(List<Cart> carts) {
-        List<Product> list = new ArrayList<>();
-        mCartProductsLiveData.setValue(list);
-        for (int i = 0; i < carts.size(); i++) {
-            mCartRepository.setCartProducts(carts.get(i).getProductid())
-                    .enqueue(new Callback<Product>() {
-                        @Override
-                        public void onResponse(Call<Product> call, Response<Product> response) {
-                            if (response.isSuccessful()) {
-                                list.add(response.body());
-                                Log.d(TAG, "onResponse: product name fetched from cart " + response.body().getName());
-                                mCartProductsLiveData.setValue(list);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Product> call, Throwable t) {
-
-                        }
-                    });
-        }
-    }*/
 
     private LiveData<List<Cart>> fetchCartsLiveData() {
         return mCartRepository.getCartLiveData();
@@ -170,15 +141,6 @@ public class CartViewModel extends AndroidViewModel {
     }
 
 
-/*    public Cart getCartFromCardSubject(int productId) {
-        for (Cart cart : mCartsSubject
-        ) {
-            if (cart.getProductid() == productId)
-                return cart;
-        }
-        return null;
-    }*/
-
     public boolean postOrder() {
         final boolean[] result = new boolean[1];
         List<LineItemsItem> itemsList = new ArrayList<>();
@@ -230,7 +192,8 @@ public class CartViewModel extends AndroidViewModel {
         return false;
     }
 
-/*    public void initProductsList() {
-        setProductsList(mCartsLiveData.getValue());
-    }*/
+    public String getProductFeatureImage(Cart cart) {
+        return findProductFromProductsList(cart.getProductid()) == null ? null :
+                findProductFromProductsList(cart.getProductid()).getFeaturedImageUrl();
+    }
 }
