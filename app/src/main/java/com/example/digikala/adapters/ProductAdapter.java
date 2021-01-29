@@ -1,6 +1,7 @@
 package com.example.digikala.adapters;
 
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -70,6 +71,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
         public void bindProduct(Product product) {
             mListItemProductBinding.setProduct(product);
+            Log.d(TAG, "bindProduct: " + product.getName() + "  " + product.getTotalSales());
             mListItemProductBinding.executePendingBindings();
             Picasso.get()
                     .load(product.getFeaturedImageUrl())

@@ -34,6 +34,7 @@ import com.example.digikala.databinding.FragmentMainPageBinding;
 import com.example.digikala.utils.SliderImageDecorator;
 import com.example.digikala.viewmodel.MainPageViewModel;
 
+import com.example.digikala.utils.QueryPreferences;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,6 +102,7 @@ public class MainPageFragment extends Fragment implements ProductAdapter.OnProdu
             public void onChanged(List<Product> products) {
                 Log.d(TAG, "set popular Observer " + products.get(products.size() - 1).getName());
                 mPopularAdapter.setItems(products);
+                QueryPreferences.setLastProductId(getActivity(), products.get(0).getId());
                 mPopularAdapter.notifyDataSetChanged();
                 setBinding();
             }

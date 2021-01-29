@@ -17,6 +17,7 @@ import com.example.digikala.data.model.customer.Customer;
 import com.example.digikala.databinding.FragmentProfileBinding;
 import com.example.digikala.utils.QueryPreferences;
 import com.example.digikala.viewmodel.ProfileViewModel;
+import com.example.digikala.worker.PollWorker;
 
 public class ProfileFragment extends Fragment {
     public static final String TAG = "Profile Fragment";
